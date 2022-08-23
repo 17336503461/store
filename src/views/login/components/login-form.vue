@@ -1,7 +1,8 @@
 <template>
   <div class="login-form-wrapper">
-    <div class="login-form-title">{{ $t('login.form.title') }}</div>
-    <div class="login-form-sub-title">{{ $t('login.form.title') }}</div>
+    <!-- 登录Arco Design Pro -->
+    <div class="login-form-title">{{ $t('欢迎来到 趣学APP管理后台') }}</div>
+    <!-- <div class="login-form-sub-title">{{ $t('login.form.title') }}</div> -->
     <div class="login-form-error-msg">{{ errorMessage }}</div>
     <a-form
       ref="loginForm"
