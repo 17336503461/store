@@ -42,6 +42,27 @@
           </template>
         </a-input-password>
       </a-form-item>
+      <a-form-item
+        field="identifyingCode"
+        :rules="[{ required: true, message: $t('验证码不能为空') }]"
+        :validate-trigger="['change', 'blur']"
+        hide-label
+      >
+        <a-input
+          v-model="userInfo.identifyingCode"
+          :placeholder="$t('验证码')"
+          class="identifyingCode"
+        >
+          <template #prefix>
+            <!-- <icon-yanzhengyanzhengma class="icon icon-yanzhengyanzhengma"/> -->
+            <span class="iconfont icon-yanzhengyanzhengma"></span>
+          </template>
+        </a-input>
+        <div class="identifyingCode-img">
+          <img src="../images/identifyingCode.jpg" alt="">
+        </div>
+      </a-form-item
+      >
       <a-space :size="16" direction="vertical">
         <div class="login-form-password-actions">
           <a-checkbox
@@ -55,9 +76,6 @@
         </div>
         <a-button type="primary" html-type="submit" long :loading="loading">
           {{ $t('login.form.login') }}
-        </a-button>
-        <a-button type="text" long class="login-form-register-btn">
-          {{ $t('login.form.register') }}
         </a-button>
       </a-space>
     </a-form>
@@ -163,4 +181,29 @@
       color: var(--color-text-3) !important;
     }
   }
+  @font-face {
+    font-family: "iconfont"; /* Project id 3606608 */
+    src: url('//at.alicdn.com/t/c/font_3606608_y4iw4xdogic.woff2?t=1661252460893') format('woff2'),
+        url('//at.alicdn.com/t/c/font_3606608_y4iw4xdogic.woff?t=1661252460893') format('woff'),
+        url('//at.alicdn.com/t/c/font_3606608_y4iw4xdogic.ttf?t=1661252460893') format('truetype');
+  }
+
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .icon-yanzhengyanzhengma:before {
+    content: "\e624";
+  }
+  .identifyingCode{
+    width:170px;
+  }
+  .identifyingCode-img{
+    margin-left:40px;
+  }
+
 </style>
