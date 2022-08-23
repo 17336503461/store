@@ -7,10 +7,10 @@
         padding: '20px',
       }"
     >
-      <template #title>
+      <!-- <template #title>
         {{ $t('workplace.categoriesPercent') }}
       </template>
-      <Chart height="310px" :option="chartOption" />
+      <Chart height="310px" :option="chartOption" /> -->
     </a-card>
   </a-spin>
 </template>

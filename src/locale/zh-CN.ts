@@ -38,7 +38,9 @@ export default {
   'menu.exception': '异常页',
   'menu.form': '表单页',
   'menu.profile': '详情页',
-  'menu.visualization': '数据可视化',
+  // 之前是数据可视化 
+  'menu.visualization': '排课系统',
+  // course.scheduling.system
   'menu.user': '个人中心',
   'menu.arcoWebsite': 'Arco Design',
   'menu.faq': '常见问题',

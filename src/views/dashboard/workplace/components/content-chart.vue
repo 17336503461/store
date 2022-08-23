@@ -6,12 +6,17 @@
       :body-style="{
         paddingTop: '20px',
       }"
-      :title="$t('workplace.contentData')"
+      :title="$t('workplace.Top.20.most.popular.questions')"
     >
-      <template #extra>
+      <!-- <template #extra>
         <a-link>{{ $t('workplace.viewMore') }}</a-link>
-      </template>
-      <Chart height="289px" :option="chartOption" />
+      </template> -->
+      <!-- <Chart height="289px" :option="chartOption" /> -->
+     <!--
+      
+      Next is form which is the Top.20.most.popular.questions.
+
+      -->
     </a-card>
   </a-spin>
 </template>

@@ -12,7 +12,7 @@
           />
         </a-avatar>
         <a-statistic
-          :title="$t('workplace.onlineContent')"
+          :title="$t('workplace.Brush.questions')"
           :value="373.5"
           :precision="1"
           :value-from="0"
@@ -37,7 +37,7 @@
           />
         </a-avatar>
         <a-statistic
-          :title="$t('workplace.putIn')"
+          :title="$t('workplace.Number.of.login')"
           :value="368"
           :value-from="0"
           animation
@@ -61,7 +61,7 @@
           />
         </a-avatar>
         <a-statistic
-          :title="$t('workplace.newDay')"
+          :title="$t('workplace.Number.of.classes')"
           :value="8874"
           :value-from="0"
           animation
@@ -86,7 +86,7 @@
           />
         </a-avatar>
         <a-statistic
-          :title="$t('workplace.newFromYesterday')"
+          :title="$t('workplace.Class.students')"
           :value="2.8"
           :precision="1"
           :value-from="0"

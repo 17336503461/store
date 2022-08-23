@@ -10,7 +10,7 @@
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
         >
-          趣学开发团队
+          EAS
         </a-typography-title>
         <icon-menu-fold
           v-if="appStore.device === 'mobile'"
