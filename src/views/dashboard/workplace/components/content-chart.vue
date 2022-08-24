@@ -8,19 +8,8 @@
       }"
       :title="$t('workplace.Top.20.most.popular.questions')"
     >
-      <!-- <template #extra>
-        <a-link>{{ $t('workplace.viewMore') }}</a-link>
-      </template> -->
-      <!-- <Chart height="289px" :option="chartOption" /> -->
-     <!--
-      
-      Next is form which is the Top.20.most.popular.questions.
-
-      -->
-      <!-- <template> -->
+      <!-- Next is form which is the Top.20.most.popular.questions.-->
         <a-table :columns="columns" :data="data" />
-      <!-- </template> -->
-
     </a-card>
   </a-spin>
 </template>
@@ -40,53 +29,76 @@ export default {
   setup() {
     const columns = [
       {
-        title: 'Name',
-        dataIndex: 'name',
+        title: 'ID',
+        dataIndex: 'id_name',
       },
       {
-        title: 'Salary',
-        dataIndex: 'salary',
+        title: '题目',
+        dataIndex: 'id_problems',
       },
       {
-        title: 'Address',
-        dataIndex: 'address',
+        title: '刷题量',
+        dataIndex: 'id_brushProblems',
       },
       {
-        title: 'Email',
-        dataIndex: 'email',
+        title: '录入用户',
+        dataIndex: 'id_isEmployed',
       },
+      {
+        title:'创建时间',
+        dataIndex: 'id_makeTime',
+      },
+      {
+        title:'正确率',
+        dataIndex: 'id_accuracy',
+      }
     ];
     const data = reactive([{
-      key: '1',
-      name: 'Jane Doe',
-      salary: 23000,
-      address: '32 Park Road, London',
-      email: 'jane.doe@example.com'
+      id_name: '98',
+      id_problems: '产品经理必备干货一一实用高效沟通话术',
+      id_brushProblems: 71,
+      id_isEmployed: '孙忆枫',
+      id_makeTime: '10:03',
+      id_accuracy:'18',
     }, {
-      key: '2',
-      name: 'Alisa Ross',
-      salary: 25000,
-      address: '35 Park Road, London',
-      email: 'alisa.ross@example.com'
+      id_name: '98',
+      id_problems: '产品经理必备干货一一实用高效沟通话术',
+      id_brushProblems: 71,
+      id_isEmployed: '孙忆枫',
+      id_makeTime: '10:03',
+      id_accuracy:'18',
     }, {
-      key: '3',
-      name: 'Kevin Sandra',
-      salary: 22000,
-      address: '31 Park Road, London',
-      email: 'kevin.sandra@example.com'
+      id_name: '98',
+      id_problems: '产品经理必备干货一一实用高效沟通话术',
+      id_brushProblems: 71,
+      id_isEmployed: '孙忆枫',
+      id_makeTime: '10:03',
+      id_accuracy:'18',
     }, {
-      key: '4',
-      name: 'Ed Hellen',
-      salary: 17000,
-      address: '42 Park Road, London',
-      email: 'ed.hellen@example.com'
+      id_name: '98',
+      id_problems: '产品经理必备干货一一实用高效沟通话术',
+      id_brushProblems: 71,
+      id_isEmployed: '孙忆枫',
+      id_makeTime: '10:03',
+      id_accuracy:'18',
     }, {
-      key: '5',
-      name: 'William Smith',
-      salary: 27000,
-      address: '62 Park Road, London',
-      email: 'william.smith@example.com'
-    }]);
+      id_name: '98',
+      id_problems: '产品经理必备干货一一实用高效沟通话术',
+      id_brushProblems: 71,
+      id_isEmployed: '孙忆枫',
+      id_makeTime: '10:03',
+      id_accuracy:'18',
+    }, {
+      id_name: '98',
+      id_problems: '产品经理必备干货一一实用高效沟通话术',
+      id_brushProblems: 71,
+      id_isEmployed: '孙忆枫',
+      id_makeTime: '10:03',
+      id_accuracy:'18',
+    }, 
+    
+    
+    ]);
 
     return {
       columns,
