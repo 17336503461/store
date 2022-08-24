@@ -17,15 +17,15 @@
       Next is form which is the Top.20.most.popular.questions.
 
       -->
-      <template>
+      <!-- <template> -->
         <a-table :columns="columns" :data="data" />
-      </template>
+      <!-- </template> -->
 
     </a-card>
   </a-spin>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" >
   import { ref } from 'vue';
   import { graphic } from 'echarts';
   import useLoading from '@/hooks/loading';
