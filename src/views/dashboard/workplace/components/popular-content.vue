@@ -133,6 +133,6 @@
     }
   }
   .classInformation-table{
-    width: 1320px;
+    width: 1620px;
   }
 </style>

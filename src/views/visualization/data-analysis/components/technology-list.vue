@@ -1,7 +1,8 @@
 <template>
     <div>
         <button >新建技术栈</button>
-        <a-table :columns="columns" :data="data" />
+        <a-table :columns="columns" :data="data" class="technology-table"/>
+        
     </div>
   
 </template>
@@ -23,10 +24,6 @@ export default {
       {
         title: '创建时间',
         dataIndex: 'address',
-      },
-      {
-        title: '操作',
-        dataIndex: 'email',
       },
     ];
     const data = reactive([{
@@ -57,3 +54,6 @@ export default {
   },
 }
 </script>
+<style>
+.technology-table{}
+</style>
