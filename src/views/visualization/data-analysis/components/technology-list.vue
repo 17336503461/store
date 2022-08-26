@@ -7,10 +7,160 @@
           </a-space>
         </div>
          <br>
-        <a-table :columns="columns" :data="data" class="technology-table"/>
+        <!-- <a-table :columns="columns" :data="data" class="technology-table"/> -->
+        <a-table
+        row-key="id"
+        :loading="loading"
+        :pagination="pagination"
+        :data="renderData"
+        :bordered="false"
+        @page-change="onPageChange"
+      >
+        <template #columns>
+          <a-table-column
+            :title="$t('ID')"
+            data-index="number"
+          />
+          <a-table-column
+            :title="$t('名称')"
+            data-index="name"
+          />
+          <a-table-column
+            :title="$t('searchTable.columns.createdTime')"
+            data-index="createdTime"
+          />
+          <a-table-column
+            :title="$t('searchTable.columns.operations')"
+            data-index="operations"
+          >
+            <template #cell>
+              <a-button v-permission="['admin']" type="text" size="small">
+                {{ $t('编辑') }}
+              </a-button>
+              <a-button  v-permission="['admin']" type="text" size="small">
+                {{ $t('删除') }}
+              </a-button>
+            </template>
+          </a-table-column>
+        </template>
+      </a-table>
     </div>
 </template>
-<script>
+<script lang="ts" setup>
+  import { computed, ref, reactive } from 'vue';
+  import { useI18n } from 'vue-i18n';
+  import useLoading from '@/hooks/loading';
+  import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
+  import { Pagination } from '@/types/global';
+  import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
+
+  const generateFormModel = () => {
+    return {
+      number: '',
+      name: '',
+      contentType: '',
+      filterType: '',
+      createdTime: [],
+      status: '',
+    };
+  };
+  const { loading, setLoading } = useLoading(true);
+  const { t } = useI18n();
+  const renderData = ref<PolicyRecord[]>([]);
+  const formModel = ref(generateFormModel());
+  const basePagination: Pagination = {
+    current: 1,
+    pageSize: 20,
+  };
+  const pagination = reactive({
+    ...basePagination,
+  });
+  const contentTypeOptions = computed<SelectOptionData[]>(() => [
+    {
+      label: t('searchTable.form.contentType.img'),
+      value: 'img',
+    },
+    {
+      label: t('searchTable.form.contentType.horizontalVideo'),
+      value: 'horizontalVideo',
+    },
+    {
+      label: t('searchTable.form.contentType.verticalVideo'),
+      value: 'verticalVideo',
+    },
+  ]);
+  const filterTypeOptions = computed<SelectOptionData[]>(() => [
+    {
+      label: t('searchTable.form.filterType.artificial'),
+      value: 'artificial',
+    },
+    {
+      label: t('searchTable.form.filterType.rules'),
+      value: 'rules',
+    },
+  ]);
+  const statusOptions = computed<SelectOptionData[]>(() => [
+    {
+      label: t('searchTable.form.status.online'),
+      value: 'online',
+    },
+    {
+      label: t('searchTable.form.status.offline'),
+      value: 'offline',
+    },
+  ]);
+  const fetchData = async (
+    params: PolicyParams = { current: 1, pageSize: 20 }
+  ) => {
+    setLoading(true);
+    try {
+      const { data } = await queryPolicyList(params);
+      renderData.value = data.list;
+      pagination.current = params.current;
+      pagination.total = data.total;
+    } catch (err) {
+      // you can report use errorHandler or other
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const search = () => {
+    fetchData({
+      ...basePagination,
+      ...formModel.value,
+    } as unknown as PolicyParams);
+  };
+  const onPageChange = (current: number) => {
+    fetchData({ ...basePagination, current });
+  };
+
+  fetchData();
+  const reset = () => {
+    formModel.value = generateFormModel();
+  };
+</script>
+
+<script lang="ts">
+  export default {
+    name: 'SearchTable',
+  };
+</script>
+
+<style scoped lang="less">
+  .container {
+    padding: 0 20px 20px 20px;
+  }
+  :deep(.arco-table-th) {
+    &:last-child {
+      .arco-table-th-item-title {
+        margin-left: 16px;
+      }
+    }
+  }
+</style>
+
+<!-- <script>
 import { reactive } from 'vue';
 
 export default {
@@ -18,15 +168,15 @@ export default {
     const columns = [
       {
         title: 'ID',
-        dataIndex: 'name',
+        dataIndex: 'id',
       },
       {
         title: '名称',
-        dataIndex: 'salary',
+        dataIndex: 'name',
       },
       {
         title: '创建时间',
-        dataIndex: 'address',
+        dataIndex: 'time',
       },
       {
         title: '操作',
@@ -36,22 +186,19 @@ export default {
     ];
     const data = reactive([{
       key: '1',
-      name: '84',
-      salary:'WEB开发前端',
-      address: '2021-09-20 10:40',
-      email: ''
+      id: '84',
+      name:'WEB开发前端',
+      time: '2021-09-20 10:40',
     }, {
       key: '2',
-      name: '38',
-      salary: 'WEB开发后端',
-      address: '2021-09-20 10:38',
-      email: ''
+      id: '38',
+      name: 'WEB开发后端',
+      time: '2021-09-20 10:38',
     }, {
       key: '3',
-      name: '45',
-      salary: '人工智能大数据',
-      address: '2021-09-20 10:37',
-      email: ''
+      id: '45',
+      name: '人工智能大数据',
+      time: '2021-09-20 10:37',
     }, 
     ]);
 
@@ -64,4 +211,4 @@ export default {
 </script>
 <style>
 .technology-table{}
-</style>
+</style> -->
