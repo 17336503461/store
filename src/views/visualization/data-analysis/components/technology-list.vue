@@ -1,12 +1,15 @@
 <template>
     <div>
-        <button >新建技术栈</button>
+      <br>
+        <div>
+          <a-space>
+            <a-button type="primary">新建技术栈</a-button>
+          </a-space>
+        </div>
+         <br>
         <a-table :columns="columns" :data="data" class="technology-table"/>
-        
     </div>
-  
 </template>
-
 <script>
 import { reactive } from 'vue';
 
@@ -25,6 +28,11 @@ export default {
         title: '创建时间',
         dataIndex: 'address',
       },
+      {
+        title: '操作',
+        dataIndex: 'operate',
+      },
+
     ];
     const data = reactive([{
       key: '1',
