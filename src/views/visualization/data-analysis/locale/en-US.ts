@@ -1,5 +1,5 @@
 export default {
-  'menu.visualization.dataAnalysis': 'Analysis',
+  'menu.teaching.material.management': 'menu Teaching Material Management',
   'dataAnalysis.title.publicOpinion': 'Public Opinion Analysis',
   'dataAnalysis.card.title.allVisitors': 'All Visitors',
   'dataAnalysis.card.title.contentPublished': 'Content Published',

@@ -1,5 +1,5 @@
 export default {
-  'menu.visualization.dataAnalysis': '分析页',
+  'menu.teaching.material.management': '教材管理',
   'dataAnalysis.title.publicOpinion': '舆情分析',
   'dataAnalysis.card.title.allVisitors': '访问总人次',
   'dataAnalysis.card.title.contentPublished': '内容发布量',

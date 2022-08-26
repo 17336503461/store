@@ -24,7 +24,7 @@
   import { AnyObject } from '@/types/global';
 
   import { reactive } from 'vue';
-
+  
 export default {
   setup() {
     const columns = [
@@ -61,40 +61,40 @@ export default {
       id_makeTime: '10:03',
       id_accuracy:'18',
     }, {
-      id_name: '98',
-      id_problems: '产品经理必备干货一一实用高效沟通话术',
-      id_brushProblems: 71,
+      id_name: '27',
+      id_problems: '来学习！10条你绝对不谢打破的交互设计规则',
+      id_brushProblems: 96,
       id_isEmployed: '孙忆枫',
       id_makeTime: '10:03',
-      id_accuracy:'18',
+      id_accuracy:'95',
     }, {
-      id_name: '98',
-      id_problems: '产品经理必备干货一一实用高效沟通话术',
-      id_brushProblems: 71,
+      id_name: '54',
+      id_problems: '你必须道的8种产品设计能力提升技巧',
+      id_brushProblems: 22,
       id_isEmployed: '孙忆枫',
       id_makeTime: '10:03',
-      id_accuracy:'18',
+      id_accuracy:'78',
     }, {
-      id_name: '98',
-      id_problems: '产品经理必备干货一一实用高效沟通话术',
-      id_brushProblems: 71,
+      id_name: '10',
+      id_problems: '最佳产品管理书痦在此，茨取职场上升秘箬',
+      id_brushProblems: 42,
       id_isEmployed: '孙忆枫',
       id_makeTime: '10:03',
-      id_accuracy:'18',
+      id_accuracy:'79',
     }, {
-      id_name: '98',
-      id_problems: '产品经理必备干货一一实用高效沟通话术',
-      id_brushProblems: 71,
+      id_name: '55',
+      id_problems: '工作计划不会写？这个超赞工具送给你',
+      id_brushProblems: 4,
       id_isEmployed: '孙忆枫',
       id_makeTime: '10:03',
-      id_accuracy:'18',
+      id_accuracy:'98',
     }, {
-      id_name: '98',
-      id_problems: '产品经理必备干货一一实用高效沟通话术',
-      id_brushProblems: 71,
+      id_name: '53',
+      id_problems: '[通知】必读，再不看就晚啦',
+      id_brushProblems: 12,
       id_isEmployed: '孙忆枫',
       id_makeTime: '10:03',
-      id_accuracy:'18',
+      id_accuracy:'25',
     }, 
     
     
