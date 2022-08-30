@@ -20,8 +20,8 @@ const DASHBOARD: AppRouteRecordRaw = {
         locale: 'menu.dashboard.workplace',
         requiresAuth: true,
         roles: ['*'],
-      },
-    },
+      }
+    }
   ],
 };
 
