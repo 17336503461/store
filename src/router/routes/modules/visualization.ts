@@ -22,6 +22,16 @@ const VISUALIZATION: AppRouteRecordRaw = {
         roles: ['admin'],
       },
     },
+    {
+      path: 'class-manage',
+      name: 'ClassManage',
+      component: () => import('@/views/visualization/class-manage/index.vue'),
+      meta: {
+        locale: '班级管理',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
   ],
 };
 

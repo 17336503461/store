@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "classes",
+  "info": {
+    "singularName": "class",
+    "pluralName": "classes",
+    "displayName": "class"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "classname": {
+      "type": "string"
+    },
+    "studentnum": {
+      "type": "integer"
+    },
+    "time": {
+      "type": "date"
+    },
+    "employment": {
+      "type": "integer"
+    },
+    "teacher": {
+      "type": "string"
+    }
+  }
+}
