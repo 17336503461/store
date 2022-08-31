@@ -1,9 +1,10 @@
 import { REDIRECT_ROUTE_NAME } from '@/router/constants';
+import { RouteRecordRaw } from 'vue-router';
 import { AppRouteRecordRaw } from './types';
 
 export const DEFAULT_LAYOUT = () => import('@/layout/default-layout.vue');
 
-export const REDIRECT_MAIN: AppRouteRecordRaw = {
+export const REDIRECT_MAIN: RouteRecordRaw = {
   path: '/redirect',
   name: 'redirectWrapper',
   component: DEFAULT_LAYOUT,
