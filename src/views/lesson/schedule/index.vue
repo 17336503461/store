@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <Breadcrumb :items="['课件模块', '班级排课']" />
+<<<<<<< HEAD
 
         <div class="class-main">
             <p class="tit">班级排课</p>
@@ -172,3 +173,20 @@ export default {
     
     }
 </style>
+=======
+    </div>
+    </template>
+    <script  lang="ts">
+        export default {
+            name: 'schedule',
+        };
+    </script>
+    <style scoped lang="less">
+        .container {
+            padding: 0 20px 40px 20px;
+            background-color: var(--color-bg-2);
+            overflow: hidden;
+            height: 100%;
+        }
+    </style>
+>>>>>>> 171dc00 (个性化排课)
