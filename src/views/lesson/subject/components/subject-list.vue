@@ -4,11 +4,11 @@
       <h1>科目管理</h1>
     </div>
     <!-- search -->
-    <SearchSubject></SearchSubject>
+    
     <div>
       <a-space>
         <span class="linemarginleft linemarginright">技术栈：</span>
-    
+        <SearchSubject></SearchSubject>
         <!-- 搜索按钮 -->
         <a-button
           class="searchbutton"
@@ -36,7 +36,7 @@
         />
       </a-space>
     </div>
-    
+
   </div>
 </template>
 
@@ -45,7 +45,9 @@
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 export default {
-  comments:{SearchSubject},
+  components:{
+    SearchSubject
+  },
   data() {
     return {
       // 班级列表表头（注释掉width实现自适应）
