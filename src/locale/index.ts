@@ -16,6 +16,8 @@ const i18n = createI18n({
     'en-US': en,
     'zh-CN': cn,
   },
+  silentFallbackWarn: true,
+  silentTranslationWarn: true
 });
 
 export default i18n;
