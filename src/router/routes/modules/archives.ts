@@ -25,7 +25,7 @@ const ARCHIVES: AppRouteRecordRaw = {
     {
       path: 'detail',
       name: 'Detail',
-      component: () => import('@/views/archives/detail/index.vue'),
+      component: () => import('@/views/StudentDetail/index.vue'),
       meta: {
         locale: '学员详情',
         requiresAuth: true,
