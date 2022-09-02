@@ -22,7 +22,6 @@ const VISUALIZATION: AppRouteRecordRaw = {
         roles: ['admin'],
       },
     },
-<<<<<<< HEAD
     {
       path: 'class-manage',
       name: 'ClassManage',
@@ -33,8 +32,6 @@ const VISUALIZATION: AppRouteRecordRaw = {
         roles: ['admin'],
       },
     },
-=======
->>>>>>> 171dc00 (个性化排课)
   ],
 };
 

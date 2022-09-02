@@ -80,7 +80,7 @@ export default {
         height: 100%;
     
         .class-main {
-            height: 950px;
+            height: 96%;
             border: 1px solid #BBBBBB;
         }
     

@@ -1,22 +1,5 @@
 <template>
     <div class="container">
-<<<<<<< HEAD
-        <Breadcrumb :items="['课件模块', '单次课程']" />
-    </div>
-    </template>
-    <script  lang="ts">
-        export default {
-            name: 'singleSchedule',
-        };
-    </script>
-    <style scoped lang="less">
-        .container {
-            padding: 0 20px 40px 20px;
-            background-color: var(--color-bg-2);
-            overflow: hidden;
-            height: 100%;
-        }
-=======
         <!-- <Breadcrumb :items="['课件模块', '单次课程']" /> -->
         <div class="head">
             <h2 id="course-head">班级排课</h2>
@@ -75,12 +58,12 @@
     </div>
 </template>
 
-    <script  lang="ts">
-export default {
-    name: 'singleSchedule',
-};
+<script  lang="ts">
+    export default {
+        name: 'singleSchedule',
+    };
 </script>
-    <style scoped lang="less">
+<style scoped lang="less">
     .container {
         // padding: 0 20px 40px 20px;
         background-color: var(--color-bg-2);
@@ -129,5 +112,4 @@ export default {
     .active{
         background-color: rgb(var(--green-6));
     }
->>>>>>> 171dc00 (个性化排课)
-    </style>
+</style>

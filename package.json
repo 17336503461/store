@@ -36,10 +36,6 @@
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
     "echarts": "^5.2.2",
-<<<<<<< HEAD
-=======
-    "element-plus": "^2.2.14",
->>>>>>> 171dc00 (个性化排课)
     "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
@@ -63,10 +59,6 @@
     "@vitejs/plugin-vue": "^1.9.4",
     "@vitejs/plugin-vue-jsx": "^1.2.0",
     "@vue/babel-plugin-jsx": "^1.1.1",
-<<<<<<< HEAD
-=======
-    "babel-plugin-import": "^1.13.5",
->>>>>>> 171dc00 (个性化排课)
     "cross-env": "^7.0.3",
     "eslint": "^8.7.0",
     "eslint-config-airbnb-base": "^14.2.1",
