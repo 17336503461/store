@@ -1,18 +1,30 @@
 <template>
-    <div class="container">
-        <Breadcrumb :items="['课件模块', '课程管理']" />
-    </div>
-    </template>
-    <script  lang="ts">
-        export default {
-            name: 'series',
-        };
-    </script>
-    <style scoped lang="less">
-        .container {
-            padding: 0 20px 40px 20px;
-            background-color: var(--color-bg-2);
-            overflow: hidden;
-            height: 100%;
-        }
-    </style>
+  <div class="container">
+    <Breadcrumb
+      :items="['menu.visualization', 'menu.teaching.material.management']"
+    />
+    <component :is="technologyList"></component>
+  </div>
+</template>
+
+
+
+<script lang="ts" setup>
+  import technologyList from './components/technology-list.vue'
+</script>
+
+<script lang="ts">
+  export default {
+  components: { technologyList },
+    name: 'DataAnalysis',
+  };
+</script>
+
+<style scoped lang="less">
+  .container {
+    padding: 0 20px 20px 20px;
+    margin-bottom: 20px;
+  }
+
+  
+</style>
