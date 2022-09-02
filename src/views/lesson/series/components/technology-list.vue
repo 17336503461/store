@@ -26,19 +26,19 @@
             data-index="name"
           />
           <a-table-column
-            :title="$t('searchTable.columns.createdTime')"
+            :title="'创建时间'"
             data-index="createdTime"
           />
           <a-table-column
-            :title="$t('searchTable.columns.operations')"
+            :title="'操作'"
             data-index="operations"
           >
             <template #cell="row">
               <a-button v-permission="['admin']" type="text" size="small">
-                {{ $t('编辑') }}
+                编辑
               </a-button>
               <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
-                {{ $t('删除') }}
+                删除
               </a-button>
 
               <a-modal v-model:visible="visible" @cancel="handleCancel" :on-before-ok="handleBeforeOk" unmountOnClose>

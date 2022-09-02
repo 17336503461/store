@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Breadcrumb
-      :items="['menu.visualization', 'menu.teaching.material.management']"
+      :items="['menu.visualization', '技术栈管理']"
     />
     <component :is="technologyList"></component>
   </div>
