@@ -31,10 +31,6 @@ export default {
       // 表格收集的数据
       form: {
         "classname": '',
-        "studentnum": '',
-        "employment": '',
-        "time": '',
-        teacher: this.teacherlist[this.keyteacher],
       },
     };
   },
@@ -42,8 +38,9 @@ export default {
     
     // 创建事件
     confirmFun() {
-      this.form.teacher = this.teacherlist[this.keyteacher]
+      // this.form.teacher = this.teacherlist[this.keyteacher]
       this.$emit('confirmfun',this.form)
+      console.log('1');
     },
     // 取消创建事件
     cancelFun() {

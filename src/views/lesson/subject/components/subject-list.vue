@@ -68,9 +68,7 @@
         </template>
       </a-table>
       </div>
-      
     </div>
-    
     <div v-show="visible" class="mask">
       <div class="addClassIpt">
         <AddClass
@@ -80,7 +78,6 @@
         ></AddClass>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -97,34 +94,6 @@ export default {
   data() {
     return {
       // 班级列表表头（注释掉width实现自适应）
-      columns: [
-        // {
-        //   title: 'ID',
-        //   dataIndex: 'id',
-        //   width: 70,
-        // },
-        // {
-        //   title: '科目名',
-        //   dataIndex: 'classname',
-        //   // width: 140
-        // },
-        // {
-        //   title: '技术栈',
-        //   dataIndex: 'studentnum',
-        //   // width: 140
-        // },
-        // {
-        //   title: '创建时间',
-        //   dataIndex: 'time',
-        //   // width: 140
-        // },
-        // {
-        //   title: '操作',
-        //   dataIndex: 'employment',
-        //   // width: 140
-        // },
-      ],
-      // 班级列表数据(classList为展示数据)
       allClassList: [],
       classList: [{
         id : 82,
@@ -144,11 +113,6 @@ export default {
       }],
       // 创建新班级数据
       newClassInfo: {},
-      // 下拉框（班主任）数据
-      teacherList: [],
-      // 搜索关键字和下拉关键词
-      keyword: '',
-      keyteacher: '',
       // 班级列表分页
       pagination: {
         pageSize: 5,
@@ -164,6 +128,22 @@ export default {
     addClassFun() {
       this.visible = true;
     },
+    async confirmfun(formdata){
+      // proxy转换成普通对象
+      // const res = JSON.parse(JSON.stringify(formdata))
+      // console.log(res);
+      // await addClassAPI(res)
+      // this.initialization()
+      console.log(formdata);
+      this.visible = false
+      console.log(this.visible);
+      
+      
+    },
+    delList(row) {
+      console.log(row);
+      
+    }
   }
 }
 </script>
