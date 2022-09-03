@@ -70,7 +70,8 @@
       </div>
       
     </div>
-    <!-- <div v-show="visible" class="mask">
+    
+    <div v-show="visible" class="mask">
       <div class="addClassIpt">
         <AddClass
           :teacherlist="teacherList"
@@ -78,10 +79,8 @@
           @cancelfun="cancelfun"
         ></AddClass>
       </div>
-    </div> -->
-
-    <!-- 加入三个操作方法按钮(错误) -->
-        
+    </div>
+    
   </div>
 </template>
 
@@ -159,6 +158,9 @@ export default {
     };
   },
   methods:{
+    cancelfun() {
+        this.visible =false 
+    },
     addClassFun() {
       this.visible = true;
     },
@@ -192,7 +194,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 450px;
+    height: 200px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;
