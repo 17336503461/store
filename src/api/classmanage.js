@@ -1,9 +1,10 @@
 import request from "../utils/request";
 // 获取所有班级列表数据
-export const getClassesAPI = () => {
+export const getClassesAPI = (data) => {
   return request({
-    url: '/api/classes',
-    method: 'GET'
+    url: '/lesson/page',
+    method: 'POST',
+    data,
   })
 }
 // 防止eslint报错 Prefer default export 添加的假api
@@ -16,7 +17,7 @@ export const fakerAPI = () => {
 // 创建班级
 export const addClassAPI = ({classname, studentnum, time, employment, teacher}) => {
   return request({
-    url: '/api/classes',
+    url: '/lesson/add',
     method: 'POST',
     data:{
       classname,

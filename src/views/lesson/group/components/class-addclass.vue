@@ -32,8 +32,9 @@
       <a-form-item field="time" label="创建时间：">
         <a-date-picker v-model="form.time" style="width: 400px" />
       </a-form-item>
+
       <!-- 下拉框（班主任） -->
-      <a-form-item field="teacher" label="班主任：">
+      <!-- <a-form-item field="teacher" label="班主任：">
         <a-dropdown
           v-model="form.teacher"
           style="width: 200px"
@@ -53,7 +54,15 @@
             >
           </template>
         </a-dropdown>
-      </a-form-item>
+      </a-form-item> -->
+
+      <!-- 输入框（班主任） -->
+      <a-form-item field="teacher" label="班主任：">
+        <a-input-number
+          v-model="form.teacher"
+          placeholder="请输入班主任"
+          style="width: 400px"
+        /></a-form-item>
     </a-form>
     <!-- 分割线 -->
     <a-divider :style="{ color: black }" />
