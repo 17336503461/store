@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import {addAccount} from '../../../../api/AccountManagement.JS'
 export default {
   props:{
     teacherlist:{type:Array}
@@ -40,6 +41,9 @@ export default {
     confirmFun() {
       // this.form.teacher = this.teacherlist[this.keyteacher]
       this.$emit('confirmfun',this.form)
+      addAccount().then((res)=>{
+        console.log(res);
+      })
       console.log('1');
     },
     // 取消创建事件
