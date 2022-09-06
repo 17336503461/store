@@ -159,9 +159,8 @@ export default {
   methods: {
     // 获取全部班级数据
     async getAllclassDataFun() {
-      const res = await getClassesAPI({
-        pageNum: this.pageNum,
-        pageSize: this.pageSize,
+      const res = await getClassesAPI(this.pagination, {
+        "content-type" : "application/json"
       });
       this.allClassList = [...this.allClassList, ...res.data.list];
       this.classList = [...this.classList, ...res.data.list];
