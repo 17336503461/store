@@ -55,6 +55,7 @@
           :sticky-header="100"
           :pagination="pagination"
         />
+        
         <!-- 加入三个操作方法按钮(错误) -->
         <!-- <template #cell="row">
               <a-button v-permission="['admin']" type="text" size="small">
@@ -149,6 +150,7 @@ export default {
       },
       // 创建班级弹窗是否可见
       visible: false,
+      
     };
   },
   created() {

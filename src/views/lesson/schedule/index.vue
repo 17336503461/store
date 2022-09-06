@@ -1,88 +1,19 @@
 <template>
     <div class="container">
         <Breadcrumb :items="['课件模块', '班级排课']" />
-
-        <div class="class-main">
-            <p class="tit">班级排课</p>
-            <a-form :model="form" @submit="handleSubmit">
-                <a-form-item class="section-tit" field="grade" label="排课班级:">
-                    <a-select v-model="form.grade" placeholder="下拉菜单">
-                        <a-option value="vip1">vip1</a-option>
-                        <a-option value="vip2">vip2</a-option>
-                        <a-option value="vip3">vip3</a-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item field="course" label="排课课程:">
-                    <a-select v-model="form.course" placeholder="下拉菜单">
-                        <a-option value="前端">前端</a-option>
-                        <a-option value="后端">后端</a-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item field="subject" label="排课科目:">
-                    <a-select v-model="form.subject" placeholder="下拉菜单">
-                        <a-option value="vue3">vue3</a-option>
-                        <a-option value="typescript">typescript</a-option>
-                        <a-option value="elementui">elementui</a-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item field="time" label="排课时间:">
-                    <a-select v-model="form.time" placeholder="下拉菜单">
-                        <a-option value="周一">周一</a-option>
-                        <a-option value="周二">周二</a-option>
-                        <a-option value="周三">周三</a-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item field="radio" class="choose">
-                    <a-radio-group v-model="form.radio">
-                        <a-radio value="循环">循环</a-radio>
-                        <a-radio value="单次">单次</a-radio>
-                    </a-radio-group>
-                </a-form-item>
-                <a-form-item field="week" label="循环周数:">
-                    <a-select v-model="form.week" placeholder="下拉菜单">
-                        <a-option value="1周">1周</a-option>
-                        <a-option value="2周">2周</a-option>
-                        <a-option value="3周">3周</a-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item field="lecturer" label="授课讲师:">
-                    <a-select v-model="form.lecturer" placeholder="下拉菜单">
-                        <a-option value="王老师">王老师</a-option>
-                        <a-option value="董老师">董老师</a-option>
-                        <a-option value="郭老师">郭老师</a-option>
-                    </a-select>
-                </a-form-item>
-
-                <a-form-item class="form-sub">
-                    <a-button html-type="submit">保存</a-button>
-                </a-form-item>
-            </a-form>
-
-        </div>
+        <SchedyleList></SchedyleList>
+        
     </div>
 </template>
 <script  lang="ts">
-import { reactive } from 'vue';
+import SchedyleList from './components/schedyle-list.vue'
+
 
 export default {
-    setup() {
-        const form = reactive({
-            grade:'',
-            course:'',
-            subject:'',
-            time:'',
-            radio:'循环',
-            week:'',
-            lecturer:''
-        });
-        const handleSubmit = (data: any) => {
-            console.log(data)
-        };
-        return {
-            form,
-            handleSubmit,
-        }
+    components:{
+        SchedyleList
     },
+    
 }
 </script>
 <style scoped lang="less">
@@ -93,7 +24,7 @@ export default {
         height: 100%;
     
         .class-main {
-            height: 950px;
+            height: 96%;
             border: 1px solid #BBBBBB;
         }
     

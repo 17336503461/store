@@ -1,0 +1,78 @@
+<template>
+  <a-table :columns="columns" :data="data" />
+</template>
+
+<script lang="ts">
+  import { reactive } from 'vue';
+
+  export default {
+    setup() {
+      const columns = [
+        {
+          title: '入学时间',
+          dataIndex: 'name',
+        },
+        {
+          title: '学习科目',
+          dataIndex: 'salary',
+        },
+        {
+          title: '应届',
+          dataIndex: 'address',
+        },
+        {
+          title: '专业',
+          dataIndex: 'email',
+        },
+        {
+          title: '当前进度',
+          dataIndex: 'email',
+        },
+        {
+          title: '招生老师',
+          dataIndex: 'email',
+        },
+        {
+          title: '所在班级',
+          dataIndex: 'email',
+        },
+        {
+          title: '身份证',
+          dataIndex: 'email',
+        },
+        {
+          title: '毕业学校',
+          dataIndex: 'email',
+        },
+      ];
+      const data = reactive([
+        {
+          key: '1',
+          name: 'Jane Doe',
+          salary: 23000,
+          address: '32 Park Road, London',
+          email: 'jane.doe@example.com',
+        },
+      ]);
+
+      return {
+        columns,
+        data,
+      };
+    },
+  };
+</script>
+
+
+
+<div class="top">
+  <div class="topBar"></div>
+    <div class="Info">学生信息</div>
+    <div class="InfoR">
+      <div class="InfoR-name">dsw</div>
+      <div class="InfoR-tel">18651313</div>
+      <div class="InfoR-photo"></div>
+    </div>
+</div>
+<HR style="FILTER: alpha(opacity=70,finishopacity=0,style=2)" width="80%" color=gray SIZE=4>
+  
