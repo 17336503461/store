@@ -9,7 +9,7 @@
       <span class="linemarginleft linemarginright">班主任：</span>
       <a-dropdown @select="selectTeacherFun">
         <a-button>{{
-          keyteacher !== ''? teacherList[keyteacher] : '点我选择'
+          keyteacher !== '' ? teacherList[keyteacher] : '点我选择'
         }}</a-button>
         <template #content>
           <a-doption
@@ -55,6 +55,7 @@
           :sticky-header="100"
           :pagination="pagination"
         />
+        
         <!-- 加入三个操作方法按钮(错误) -->
         <!-- <template #cell="row">
               <a-button v-permission="['admin']" type="text" size="small">
@@ -81,6 +82,7 @@
 </template>
 
 <script>
+import { Button } from '@arco-design/web-vue';
 import AddClass from './class-addclass.vue';
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 
@@ -126,6 +128,9 @@ export default {
           title: '操作',
           dataIndex: 'operate',
           width: 210,
+          // render: () => {
+          //   <button>...</button>
+          // },
         },
       ],
       // 班级列表数据(classList为展示数据)
@@ -140,24 +145,33 @@ export default {
       keyteacher: '',
       // 班级列表分页
       pagination: {
+        pageNum: 1,
         pageSize: 5,
       },
       // 创建班级弹窗是否可见
       visible: false,
+      
     };
   },
   created() {
     this.initialization();
   },
   methods: {
+    // 获取全部班级数据
+    async getAllclassDataFun() {
+      const res = await getClassesAPI(this.pagination, {
+        "content-type" : "application/json"
+      });
+      this.allClassList = [...this.allClassList, ...res.data.list];
+      this.classList = [...this.classList, ...res.data.list];
+      if (this.pageNum <= res.data.totalPage) {
+        this.pageNum += 1;
+        this.getAllclassDataFun();
+      }
+    },
     // 初始化
-    async initialization() {
-      // 获取全部班级数据
-      const res = await getClassesAPI();
-      this.allClassList = res.data.data;
-      this.classList = res.data.data;
-      // console.log(this.classList)
-
+    initialization() {
+      this.getAllclassDataFun();
       // 过滤出所有班主任用于下拉框
       this.teacherList = this.classList.map((item) => {
         return item.attributes.teacher;
@@ -193,7 +207,7 @@ export default {
             ) !== -1
           );
         });
-        console.log(typeof(this.keyteacher));
+        console.log(typeof this.keyteacher);
         console.log('未输入关键词 选择班任');
       }
       // 输入关键词 选择班任
@@ -208,11 +222,10 @@ export default {
         console.log('输入关键词 选择班任');
       }
       // 空按或其他未知情况
-      else if (this.keyword === '' && this.keyteacher === undefined){
+      else if (this.keyword === '' && this.keyteacher === undefined) {
         this.classList = this.allClassList;
         console.log('403');
-      }
-      else {
+      } else {
         this.classList = this.allClassList;
         console.log('404');
       }
@@ -221,18 +234,18 @@ export default {
       this.keyteacher = '';
     },
     // 子组件中创建按钮点击
-    async confirmfun(formdata){
+    async confirmfun(formdata) {
       // proxy转换成普通对象
-      const res = JSON.parse(JSON.stringify(formdata))
+      const res = JSON.parse(JSON.stringify(formdata));
       console.log(res);
-      await addClassAPI(res)
-      this.initialization()
-      this.visible = false
+      await addClassAPI(res);
+      this.initialization();
+      this.visible = false;
     },
     // 子组件中取消按钮点击
-    cancelfun(){
-      this.visible = false
-    }
+    cancelfun() {
+      this.visible = false;
+    },
   },
 };
 </script>

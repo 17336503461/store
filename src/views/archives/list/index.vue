@@ -1,11 +1,16 @@
 <template>
 <div class="container">
     <Breadcrumb :items="['档案模块', '学员管理']" />
+    <StudentList></StudentList>
 </div>
 </template>
 <script  lang="ts">
+    import  StudentList from './components/student_list.vue' 
+
     export default {
-        name: 'list',
+        components: {
+            StudentList
+        }
     };
 </script>
 <style scoped lang="less">

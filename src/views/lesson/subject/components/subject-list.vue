@@ -36,15 +36,20 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column
+          <a-table-column 
+            :data="classList"
             :title="$t('ID')"
+            prop="id"
             data-index="id"
           />
           <a-table-column
+          :data="classList"
             :title="$t('科目名')"
+            prop="name"
             data-index="name"
           />
           <a-table-column
+          :data="classList"
             :title="$t('技术栈')"
             data-index="technology"
           />
@@ -68,9 +73,8 @@
         </template>
       </a-table>
       </div>
-      
     </div>
-    <!-- <div v-show="visible" class="mask">
+    <div v-show="visible" class="mask">
       <div class="addClassIpt">
         <AddClass
           :teacherlist="teacherList"
@@ -78,10 +82,7 @@
           @cancelfun="cancelfun"
         ></AddClass>
       </div>
-    </div> -->
-
-    <!-- 加入三个操作方法按钮(错误) -->
-        
+    </div>
   </div>
 </template>
 
@@ -90,6 +91,7 @@
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
+import {getAccount} from '../../../../api/AccountManagement.JS'
 export default {
   components:{
     SearchSubject,
@@ -97,59 +99,9 @@ export default {
   },
   data() {
     return {
-      // 班级列表表头（注释掉width实现自适应）
-      columns: [
-        // {
-        //   title: 'ID',
-        //   dataIndex: 'id',
-        //   width: 70,
-        // },
-        // {
-        //   title: '科目名',
-        //   dataIndex: 'classname',
-        //   // width: 140
-        // },
-        // {
-        //   title: '技术栈',
-        //   dataIndex: 'studentnum',
-        //   // width: 140
-        // },
-        // {
-        //   title: '创建时间',
-        //   dataIndex: 'time',
-        //   // width: 140
-        // },
-        // {
-        //   title: '操作',
-        //   dataIndex: 'employment',
-        //   // width: 140
-        // },
-      ],
-      // 班级列表数据(classList为展示数据)
-      allClassList: [],
-      classList: [{
-        id : 82,
-        name: "Vue" ,
-        technology:"Web开发前端",
-        createdTime :"2022-03-07 10:24",
-      },{
-        id : 21,
-        name: "HTML/JavaScript" ,
-        technology:"Web开发前端",
-        createdTime :"2021-08-08 18:07",
-      },{
-        id : 37,
-        name: "Linux/MQ" ,
-        technology:"WEB开发后端",
-        createdTime :"2021-06-12 22:28",
-      }],
+      classList: [],
       // 创建新班级数据
       newClassInfo: {},
-      // 下拉框（班主任）数据
-      teacherList: [],
-      // 搜索关键字和下拉关键词
-      keyword: '',
-      keyteacher: '',
       // 班级列表分页
       pagination: {
         pageSize: 5,
@@ -158,10 +110,38 @@ export default {
       visible: false,
     };
   },
-  methods:{
+  methods:{ 
+    //获取科目列表
+    getAccountList () {
+      getAccount().then((res) => {
+        console.log(res.data.data);
+        this.classList = res.data.data
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },
+    cancelfun() {
+        this.visible =false 
+    },
     addClassFun() {
       this.visible = true;
     },
+    async confirmfun(formdata){
+      // proxy转换成普通对象
+      // const res = JSON.parse(JSON.stringify(formdata))
+      // console.log(res);
+      // await addClassAPI(res)
+      // this.initialization()
+      console.log(formdata);
+      this.visible = false
+      console.log(this.visible);
+    },
+    delList(row) {
+      console.log(row);
+    }
+  },
+  created() {
+    this.getAccountList();
   }
 }
 </script>
@@ -192,7 +172,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 450px;
+    height: 200px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;
