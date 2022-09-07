@@ -54,10 +54,6 @@ export default {
         console.log(err);
       })
     },
-    //跳转页面
-    gotoa() {
-      this.$router.go(0)
-    },
     // 创建事件
     confirmFun(form) {
       // this.form.teacher = this.teacherlist[this.keyteacher]
@@ -69,10 +65,10 @@ export default {
         seriesId:this.form.seriesId,
       }).then((res)=>{
         alert("添加成功!");
-        // getAccountList(); 写不出来 组件组件 调用函数 
-        this.gotoa();
+        getAccountList();
       })
       console.log('1');
+
       // 关闭窗口
       this.$emit('cancelfun',false)
     },

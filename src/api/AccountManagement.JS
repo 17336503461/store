@@ -1,7 +1,7 @@
 /**
  * 
  * 科目管理 accountClassification
- * 
+ * author:lx 
  * 
  * 
  */
@@ -26,7 +26,15 @@ export function getAccount(data) {
 export function deleteAccount (params) {
   return request ({ 
     url :"LessonSubject/delete",
-    method:"post" ,
+    method:"post",
+    params,
+  })
+}
+//修改科目
+export function reviseAccount (params) {
+  return request ({ 
+    url :"LessonSubject/update/delete",
+    method:"post",
     params,
   })
 }

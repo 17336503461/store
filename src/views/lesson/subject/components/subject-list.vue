@@ -62,7 +62,7 @@
             data-index="operations"
           >
             <template #cell="row">
-              <a-button v-permission="['admin']" type="text" size="small">
+              <a-button @click ="reviseList(row)" v-permission="['admin']" type="text" size="small">
                 {{ $t('编辑') }}
               </a-button>
               <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
@@ -78,10 +78,19 @@
     <div v-show="visible" class="mask">
       <div class="addClassIpt">
         <AddClass
-          :teacherlist="teacherList"
+       
           @confirmfun="confirmfun"
           @cancelfun="cancelfun"
         ></AddClass>
+      </div>
+    </div>
+    <div v-show="visible_revise" class="mask">
+      <div class="addClassIpt">
+        <ReviseClass>
+          :teacherlist="teacherList"
+          @confirmfun="confirmfun"
+          @cancelfun="cancelfun"
+        </ReviseClass>
       </div>
     </div>
   </div>
@@ -94,10 +103,13 @@ import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
 import {getAccount} from '../../../../api/AccountManagement.JS'
 import {deleteAccount} from '../../../../api/AccountManagement.JS' 
+import {reviseAccount} from '../../../../api/AccountManagement.JS' 
+import ReviseClass from './revise-subject.vue'
 export default {
   components:{
     SearchSubject,
     AddClass,
+    ReviseClass,
   },
   data() {
     return {
@@ -110,6 +122,7 @@ export default {
       },
       // 创建班级弹窗是否可见
       visible: false,
+      visible_revise:false,
     };
   },
   methods:{ 
@@ -145,26 +158,24 @@ export default {
       console.log(typeof(deleteAccount));
       deleteAccount({
         subjectId : row.record.id
-        
       }).then((res)=>{
         alert("删除成功!") ;
         // 更新列表
         this.getAccountList();
       })
-      // deleteAccount({
-      //   subjectId : row.record.id
-      //   this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-      //   confirmButtonText: "确定",
-      //   cancelButtonText: "取消",
-      //   type: "warning",
-      // })
-      // }).then((res)=>{
-      //   alert("删除成功!") ;
-      //   // 更新列表
-      //   this.getAccountList();
-      // })
     },
-    //增加科目
+    //修改科目
+    reviseList(row) {
+      console.log(row.record.id);
+      console.log(row.record.name);
+      //等待更改
+      //缺少一个修改的弹窗 然后去 和add 一样
+      this.visible_revise = true;
+      
+
+
+    }
+    
   },
   created() {
     this.getAccountList();
