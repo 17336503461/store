@@ -29,6 +29,7 @@
 <script>
 
 import {addAccount} from '../../../../api/AccountManagement.JS'
+import {getAccount} from '../../../../api/AccountManagement.JS'
 export default {
   props:{
     teacherlist:{type:Array}
@@ -44,16 +45,32 @@ export default {
     };
   },
   methods: {
-    
+    getAccountList () {
+      getAccount().then((res) => {
+        console.log(res.data.data);
+        this.classList = res.data.data
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },
     // 创建事件
     confirmFun(form) {
       // this.form.teacher = this.teacherlist[this.keyteacher]
       // this.$emit('confirmfun',this.form)
       console.log(this.form.classname,this.form.seriesId);
-      // addAccount().then((res)=>{
-      //   console.log(res);
-      // })
-      // console.log('1');
+      
+      
+      addAccount({
+        name:this.form.classname,
+        seriesId:this.form.seriesId,
+      }).then((res)=>{
+        alert("添加成功!");
+        getAccountList();
+      })
+      console.log('1');
+
+      // 关闭窗口
+      this.$emit('cancelfun',false)
     },
     // 取消创建事件
     cancelFun() {

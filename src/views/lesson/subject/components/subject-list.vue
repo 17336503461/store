@@ -106,7 +106,7 @@ export default {
       newClassInfo: {},
       // 班级列表分页
       pagination: {
-        pageSize: 5,
+        pageSize: 25,
       },
       // 创建班级弹窗是否可见
       visible: false,
