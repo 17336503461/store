@@ -92,6 +92,7 @@ import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
 import {getAccount} from '../../../../api/AccountManagement.JS'
+import {deleteAccount} from '../../../../api/AccountManagement.JS' 
 export default {
   components:{
     SearchSubject,
@@ -136,8 +137,20 @@ export default {
       this.visible = false
       console.log(this.visible);
     },
+    // 删除科目 
     delList(row) {
-      console.log(row);
+      console.log(row.record.id);
+      console.log(typeof(row.record.id));
+      console.log(typeof(deleteAccount));
+      deleteAccount({
+        subjectId : row.record.id
+      }).then((res)=>{
+        console.log(res);
+      })
+    },
+    //增加科目
+    addList() {
+      
     }
   },
   created() {

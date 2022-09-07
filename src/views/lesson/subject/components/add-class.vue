@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 import {addAccount} from '../../../../api/AccountManagement.JS'
 export default {
   props:{
