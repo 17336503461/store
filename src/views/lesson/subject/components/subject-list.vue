@@ -86,10 +86,10 @@
     </div>
     <div v-show="visible_revise" class="mask">
       <div class="addClassIpt">
-        <ReviseClass>
-          :teacherlist="teacherList"
-          @confirmfun="confirmfun"
-          @cancelfun="cancelfun"
+        <ReviseClass
+          @confirmFun_revise="confirmFun_revise"
+          @cancelFun_revise="cancelFun_revise"
+          >
         </ReviseClass>
       </div>
     </div>
@@ -165,15 +165,16 @@ export default {
       })
     },
     //修改科目
-    reviseList(row) {
-      console.log(row.record.id);
-      console.log(row.record.name);
+    cancelFun_revise(){
+      this.visible_revise =false 
+    },
+    reviseList() {
+      //row
+      // console.log(row.record.id);
+      // console.log(row.record.name);
       //等待更改
       //缺少一个修改的弹窗 然后去 和add 一样
       this.visible_revise = true;
-      
-
-
     }
     
   },

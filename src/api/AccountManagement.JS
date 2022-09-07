@@ -33,7 +33,7 @@ export function deleteAccount (params) {
 //修改科目
 export function reviseAccount (params) {
   return request ({ 
-    url :"LessonSubject/update/delete",
+    url :"LessonSubject/update",
     method:"post",
     params,
   })
