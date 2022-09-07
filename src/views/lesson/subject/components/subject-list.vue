@@ -68,6 +68,7 @@
               <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
                 {{ $t('删除') }}
               </a-button>
+              
             </template>
           </a-table-column>
         </template>
@@ -92,6 +93,7 @@ import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
 import {getAccount} from '../../../../api/AccountManagement.JS'
+import {deleteAccount} from '../../../../api/AccountManagement.JS' 
 export default {
   components:{
     SearchSubject,
@@ -136,9 +138,33 @@ export default {
       this.visible = false
       console.log(this.visible);
     },
+    // 删除科目 
     delList(row) {
-      console.log(row);
-    }
+      console.log(row.record.id);
+      console.log(typeof(row.record.id));
+      console.log(typeof(deleteAccount));
+      deleteAccount({
+        subjectId : row.record.id
+        
+      }).then((res)=>{
+        alert("删除成功!") ;
+        // 更新列表
+        this.getAccountList();
+      })
+      // deleteAccount({
+      //   subjectId : row.record.id
+      //   this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      //   confirmButtonText: "确定",
+      //   cancelButtonText: "取消",
+      //   type: "warning",
+      // })
+      // }).then((res)=>{
+      //   alert("删除成功!") ;
+      //   // 更新列表
+      //   this.getAccountList();
+      // })
+    },
+    //增加科目
   },
   created() {
     this.getAccountList();
@@ -172,7 +198,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 200px;
+    height: 250px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;
