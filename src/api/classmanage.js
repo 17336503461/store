@@ -4,7 +4,7 @@ export const getClassesAPI = (data, header) => {
   return request({
     url: '/lesson/page',
     method: 'POST',
-    data: data,
+    data,
     headers: header
   })
 }
@@ -16,22 +16,22 @@ export const fakerAPI = () => {
   })
 }
 // 创建班级
-export const addClassAPI = ({classname, studentnum, time, employment, teacher}) => {
+export const addClassAPI = ({ classname, studentnum, employment, teacher }) => {
   return request({
     url: '/lesson/add',
     method: 'POST',
-    data:{
-      classname,
-      studentnum,
-      time,
+    data: {
+      title: classname,
+      currentNumber: studentnum,
       employment,
-      teacher
+      headmaster: teacher,
     },
     // data的格式
-    // {"classname": "vip100",
-    // "studentnum": 52,
-    // "time": "2022-08-04",
-    // "employment": 21,
-    // "teacher": "武老师"}
+    // {
+    //   "currentNumber": 0,
+    //   "employment": 0,
+    //   "headmaster": "string",
+    //   "title": "string"
+    // }
   })
 }
