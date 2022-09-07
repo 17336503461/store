@@ -2,7 +2,7 @@
   <div>
     <h2 class="title"></h2>
     <a-divider :style="{ color: black }" />
-    <a-form :model="form" :style="{ width: '680px' }" @submit="submitClassFun">
+    <a-form :model="form"  :style="{ width: '680px' }" @submit="submitClassFun">
       <a-form-item field="classname" label="科目名称：">
         <a-input
           v-model="form.classname"
@@ -10,12 +10,19 @@
           style="width: 400px"
         />
       </a-form-item>
-    </a-form>
-    <a-divider :style="{ color: black }" />
-    <div class="btn">
+      <a-form-item field="seriesId" label="科目 id : " >
+        <a-input
+          v-model="form.seriesId"
+          placeholder="请输入科目id"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <div class="btn">
       <a-button type="dashed" class="cancel" @click="cancelFun">取消</a-button>
       <a-button type="primary" class="confirm" @click="confirmFun">创建</a-button>
-    </div>
+      </div> 
+    </a-form>
+    <a-divider :style="{ color: black }" />
   </div>
 </template>
 
@@ -28,24 +35,25 @@ export default {
   },
   data() {
     return {
-      // 下拉框关键词
-      keyteacher: undefined,
+      // classname:[],
       // 表格收集的数据
       form: {
-        "classname": '',
+        classname: '',
+         seriesId:'' ,
       },
     };
   },
   methods: {
     
     // 创建事件
-    confirmFun() {
+    confirmFun(form) {
       // this.form.teacher = this.teacherlist[this.keyteacher]
-      this.$emit('confirmfun',this.form)
-      addAccount().then((res)=>{
-        console.log(res);
-      })
-      console.log('1');
+      // this.$emit('confirmfun',this.form)
+      console.log(this.form.classname,this.form.seriesId);
+      // addAccount().then((res)=>{
+      //   console.log(res);
+      // })
+      // console.log('1');
     },
     // 取消创建事件
     cancelFun() {
@@ -65,4 +73,5 @@ export default {
       margin-right: 20px;
     }
   }
+  
 </style>

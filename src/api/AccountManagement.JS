@@ -23,10 +23,10 @@ export function getAccount(data) {
   })
 }
 //删除科目 
-export function deleteAccount (data) {
+export function deleteAccount (params) {
   return request ({ 
     url :"LessonSubject/delete",
     method:"post" ,
-    data,
+    params,
   })
 }
