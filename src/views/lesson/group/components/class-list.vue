@@ -115,7 +115,7 @@ export default {
         },
         {
           title: '就业人数',
-          dataIndex: 'attributes.employment',
+          dataIndex: 'employment',
           // width: 140
         },
         {
