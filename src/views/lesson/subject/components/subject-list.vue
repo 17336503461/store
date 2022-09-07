@@ -36,15 +36,20 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column
+          <a-table-column 
+            :data="classList"
             :title="$t('ID')"
+            prop="id"
             data-index="id"
           />
           <a-table-column
+          :data="classList"
             :title="$t('科目名')"
+            prop="name"
             data-index="name"
           />
           <a-table-column
+          :data="classList"
             :title="$t('技术栈')"
             data-index="technology"
           />
@@ -86,6 +91,7 @@
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
+import {getAccount} from '../../../../api/AccountManagement.JS'
 export default {
   components:{
     SearchSubject,
@@ -93,24 +99,7 @@ export default {
   },
   data() {
     return {
-      // 班级列表表头（注释掉width实现自适应）
-      allClassList: [],
-      classList: [{
-        id : 82,
-        name: "Vue" ,
-        technology:"Web开发前端",
-        createdTime :"2022-03-07 10:24",
-      },{
-        id : 21,
-        name: "HTML/JavaScript" ,
-        technology:"Web开发前端",
-        createdTime :"2021-08-08 18:07",
-      },{
-        id : 37,
-        name: "Linux/MQ" ,
-        technology:"WEB开发后端",
-        createdTime :"2021-06-12 22:28",
-      }],
+      classList: [],
       // 创建新班级数据
       newClassInfo: {},
       // 班级列表分页
@@ -121,7 +110,16 @@ export default {
       visible: false,
     };
   },
-  methods:{
+  methods:{ 
+    //获取科目列表
+    getAccountList () {
+      getAccount().then((res) => {
+        console.log(res.data.data);
+        this.classList = res.data.data
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },
     cancelfun() {
         this.visible =false 
     },
@@ -137,13 +135,13 @@ export default {
       console.log(formdata);
       this.visible = false
       console.log(this.visible);
-      
-      
     },
     delList(row) {
       console.log(row);
-      
     }
+  },
+  created() {
+    this.getAccountList();
   }
 }
 </script>
