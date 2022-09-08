@@ -44,15 +44,15 @@
           <a-table-column
             :title="$t('科目名')"
             prop="name"
-            data-index="name"
+            data-index="title"
           />
           <a-table-column
             :title="$t('技术栈')"
-            data-index="technology"
+            data-index="teacherId"
           />
           <a-table-column
             :title="$t('创建时间')"
-            data-index="createdTime"
+            data-index="createAt"
           />
           <a-table-column
             :title="$t('操作')"
@@ -126,8 +126,8 @@ export default {
     //获取科目列表
     getAccountList () {
       getAccount().then((res) => {
-        console.log(res.data.data);
-        this.classList = res.data.data
+        console.log(res.data);
+        this.classList = res.data
       }).catch((err)=>{
         console.log(err);
       })

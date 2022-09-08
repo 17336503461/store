@@ -15,3 +15,11 @@
     data,
   })
 }
+//删除技术栈
+export function delTechonology(data) { 
+ return request({
+   url :'LessonSeries/delete',
+   method: 'post',
+   data,
+ })
+}

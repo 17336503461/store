@@ -58,7 +58,7 @@
 </template>
 <script>
   import useLoading from '@/hooks/loading';
-  import {getTechonology} from "../../../../api/TechonologyManage.js"
+  import {getTechonology ,delTechonology } from "../../../../api/TechonologyManage.js"
 
   //loading板子
   const { loading, setLoading } = useLoading(true);
@@ -81,8 +81,13 @@
         console.log(this.renderData);
         this.renderData=res.data.data
       })
+    },
+    //删除技术栈list
+    delTechonologyList(){
+      delTechonology(id).then((res)=>{
+        console.log(res);
+      })
     }
-      //renderData
   },
   created() {
     this.getTechonologyList();
