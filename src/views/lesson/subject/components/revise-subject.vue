@@ -60,10 +60,10 @@ export default {
       this.$router.go(0)
     },
 
-    // 创建事件
+    // 修改科目
     confirmFun_revise(form) {
       console.log(this.form.classname,this.form.seriesId);
-      //添加科目
+      //修改科目
       reviseAccount({
         subjectId: 54,
         name:"111" ,

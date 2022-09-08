@@ -3,7 +3,7 @@
       <br>
         <div>
           <a-space>
-            <a-button type="primary">新建技术栈</a-button>
+            <a-button type="primary" @click="touch_techonology">新建技术栈</a-button>
           </a-space>
         </div>
          <br>
@@ -19,15 +19,15 @@
         <template #columns>
           <a-table-column
             :title="$t('ID')"
-            data-index="number"
+            data-index="id"
           />
           <a-table-column
             :title="$t('名称')"
-            data-index="name"
+            data-index="title"
           />
           <a-table-column
             :title="'创建时间'"
-            data-index="createdTime"
+            data-index="createAt"
           />
           <a-table-column
             :title="'操作'"
@@ -56,98 +56,39 @@
       </a-table>
     </div>
 </template>
-<script lang="ts" setup>
-  import { computed, ref, reactive } from 'vue';
-  import { useI18n } from 'vue-i18n';
+<script>
   import useLoading from '@/hooks/loading';
-  import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
-  import { Pagination } from '@/types/global';
-  import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
+  import {getTechonology} from "../../../../api/TechonologyManage.js"
 
-  
-  const generateFormModel = () => {
-    return {
-      number: '',
-      name: '',
-      contentType: '',
-      filterType: '',
-      createdTime: [],
-      status: '',
-    };
-  };
+  //loading板子
   const { loading, setLoading } = useLoading(true);
-  const { t } = useI18n();
-  const renderData = ref<PolicyRecord[]>([]);
-  const formModel = ref(generateFormModel());
-  const basePagination: Pagination = {
-    current: 1,
-    pageSize: 20,
-  };
-  
-  function delList (row) { 
-    console.log(row.record.number);  
- 
-  }
-  
-  const pagination = reactive({
-    ...basePagination,
-  });
-  const filterTypeOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: t('searchTable.form.filterType.artificial'),
-      value: 'artificial',
-    },
-    {
-      label: t('searchTable.form.filterType.rules'),
-      value: 'rules',
-    },
-  ]);
-  const statusOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: t('searchTable.form.status.online'),
-      value: 'online',
-    },
-    {
-      label: t('searchTable.form.status.offline'),
-      value: 'offline',
-    },
-  ]);
-  const fetchData = async (
-    params: PolicyParams = { current: 1, pageSize: 20 }
-  ) => {
-    setLoading(true);
-    try {
-      const { data } = await queryPolicyList(params);
-      renderData.value = data.list;
-      pagination.current = params.current;
-      pagination.total = data.total;
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(false);
 
-  const search = () => {
-    fetchData({
-      ...basePagination,
-      ...formModel.value,
-    } as unknown as PolicyParams);
-  };
-  const onPageChange = (current: number) => {
-    fetchData({ ...basePagination, current });
-  };
-
-  fetchData();
-  const reset = () => {
-    formModel.value = generateFormModel();
-  };
-</script>
-
-<script lang="ts">
   export default {
-    name: 'SearchTable',
+  components:{
+    
+  },
+  data() {
+    return {
+      renderData: [],
+    };
+  },
+  methods:{ 
+   //获取技术栈列表
+    getTechonologyList() {
+      getTechonology().then((res)=>{
+        console.log(res.data.data);
+        console.log(this.renderData);
+        this.renderData=res.data.data
+      })
+    }
+      //renderData
+  },
+  created() {
+    this.getTechonologyList();
   }
+}
+  
 </script>
 
 <style scoped lang="less">

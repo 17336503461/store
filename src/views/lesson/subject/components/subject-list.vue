@@ -37,19 +37,16 @@
       >
         <template #columns>
           <a-table-column 
-            :data="classList"
             :title="$t('ID')"
             prop="id"
             data-index="id"
           />
           <a-table-column
-          :data="classList"
             :title="$t('科目名')"
             prop="name"
             data-index="name"
           />
           <a-table-column
-          :data="classList"
             :title="$t('技术栈')"
             data-index="technology"
           />
