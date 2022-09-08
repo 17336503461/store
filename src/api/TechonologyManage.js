@@ -12,13 +12,14 @@
   return request({
     url :'LessonSeries/getList' ,
     method: 'post',
+    //不会拼接 字符 串路由传参
     data,
   })
 }
 //删除技术栈
 export function delTechonology(data) { 
  return request({
-   url :'LessonSeries/delete',
+   url :'LessonSeries/delete/' + data,
    method: 'post',
    data,
  })

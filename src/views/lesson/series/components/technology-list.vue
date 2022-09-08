@@ -59,7 +59,7 @@
 <script>
   import useLoading from '@/hooks/loading';
   import {getTechonology ,delTechonology } from "../../../../api/TechonologyManage.js"
-
+  
   //loading板子
   const { loading, setLoading } = useLoading(true);
   setLoading(false);
@@ -70,10 +70,13 @@
   },
   data() {
     return {
+      visible:false,
       renderData: [],
     };
   },
   methods:{ 
+    
+
    //获取技术栈列表
    handleCancel(){},
     getTechonologyList() {
@@ -84,9 +87,16 @@
       })
     },
     //删除技术栈list
-    delTechonologyList(){
-      delTechonology(id).then((res)=>{
+    //  创建事件
+    addClassFun() {
+      this.visible = true
+    },
+    //删除事件
+    delList(row){
+      console.log(row.record.id);
+      delTechonology(row.record.id).then((res)=>{
         console.log(res);
+        this.getTechonologyList();
       })
     }
   },
@@ -109,56 +119,3 @@
     }
   }
 </style>
-
-<!-- <script>
-import { reactive } from 'vue';
-
-export default {
-  setup() {
-    const columns = [
-      {
-        title: 'ID',
-        dataIndex: 'id',
-      },
-      {
-        title: '名称',
-        dataIndex: 'name',
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'time',
-      },
-      {
-        title: '操作',
-        dataIndex: 'operate',
-      },
-
-    ];
-    const data = reactive([{
-      key: '1',
-      id: '84',
-      name:'WEB开发前端',
-      time: '2021-09-20 10:40',
-    }, {
-      key: '2',
-      id: '38',
-      name: 'WEB开发后端',
-      time: '2021-09-20 10:38',
-    }, {
-      key: '3',
-      id: '45',
-      name: '人工智能大数据',
-      time: '2021-09-20 10:37',
-    }, 
-    ]);
-
-    return {
-      columns,
-      data
-    }
-  },
-}
-</script>
-<style>
-.technology-table{}
-</style> -->

@@ -126,8 +126,8 @@ export default {
     //获取科目列表
     getAccountList () {
       getAccount().then((res) => {
-        console.log(res.data);
-        this.classList = res.data
+        console.log(res.data.list);
+        this.classList = res.data.list
       }).catch((err)=>{
         console.log(err);
       })

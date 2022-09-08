@@ -7,11 +7,11 @@
  */
 import request from '../utils/request' 
 //增加科目
-export function addAccount(params) { 
+export function addAccount(data) { 
   return request({
     url :'LessonSubject/add' ,
     method: 'post',
-    params,
+    data,
   })
 }
 // 获取科目列表
