@@ -32,3 +32,11 @@ export function addTechonology(data) {
     data,
   })
  }
+//修改技术栈
+export function reviseTechonology(data) { 
+  return request({
+    url :'LessonSeries/update',
+    method: 'post',
+    data,
+  })
+ }

@@ -34,7 +34,10 @@
             data-index="operations"
           >
             <template #cell="row">
-              <a-button v-permission="['admin']" type="text" size="small">
+              <a-button v-permission="['admin']" type="text" size="small"
+              @click ="editTechonology(row)"
+              
+              >
                 编辑
               </a-button>
               <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
@@ -64,12 +67,22 @@
         ></AddClass>
       </div>
     </div>
+    <div v-show="visible_revise" class="mask">
+      <div class="addClassIpt">
+        <ReviseClass
+          @confirmFun_revise="confirmFun_revise"
+          @cancelFun_revise="cancelFun_revise"
+          v-bind:row_ = "row_"
+          >
+        </ReviseClass>
+      </div>
+    </div>
 </template>
 <script>
   import useLoading from '@/hooks/loading';
   import {getTechonology ,delTechonology} from "../../../../api/TechonologyManage.js"
   import AddClass from  './add-class.vue'
-
+  import ReviseClass from  './revise-subject.vue'
   //loading板子
   const { loading, setLoading } = useLoading(true);
   setLoading(false);
@@ -77,11 +90,17 @@
   export default {
   components:{
     AddClass,
+    ReviseClass,
   },
   data() {
     return {
       visible: false,
       renderData: [],
+      visible_revise:false,
+      pagination: {
+        pageSize: 25,
+      },
+      row_ : "1",
     };
   },
   methods:{ 
@@ -93,6 +112,11 @@
     cancelfun() {
         this.visible =false 
     },
+    //创建图层二 编辑
+    cancelFun_revise(){
+      this.visible_revise =false 
+    },
+    
    //获取技术栈列表
    handleCancel(){},
     getTechonologyList() {
@@ -110,7 +134,16 @@
         this.getTechonologyList();
       })
     },
-    
+    //编辑技术栈
+    editTechonology(row) {
+      // console.log("1");
+      this.visible_revise = true;
+      // this.$emit("confirmFun_revise",row)
+      // row_ : row ;
+      // console.log(row.record.id);
+      this.row_ = row.record.id ;
+      console.log(this.row_);
+    }
   },
   created() {
     this.getTechonologyList();
