@@ -24,3 +24,11 @@ export function delTechonology(data) {
    data,
  })
 }
+//添加技术栈
+export function addTechonology(data) { 
+  return request({
+    url :'LessonSeries/add',
+    method: 'post',
+    data,
+  })
+ }

@@ -3,7 +3,7 @@
       <br>
         <div>
           <a-space>
-            <a-button type="primary" @click="touch_techonology">新建技术栈</a-button>
+            <a-button type="primary" @click="addClassFun">新建技术栈</a-button>
           </a-space>
         </div>
          <br>
@@ -41,42 +41,58 @@
                 删除
               </a-button>
 
-              <a-modal v-model:visible="visible" @cancel="handleCancel"  unmountOnClose>
+              <!-- <a-modal v-model:visible="visible" @cancel="handleCancel"  unmountOnClose>
               <template #title>
                 Title
               </template>
               <div>You can cusstomize modal body text by the current situation. This modal will be closed immediately once you
                 press the OK button.
               </div>
-            </a-modal>
+            </a-modal> -->
 
             </template>
           </a-table-column>
         </template>
       </a-table>
     </div>
+    <div v-show="visible" class="mask">
+      <div class="addClassIpt">
+        <AddClass
+       
+          @confirmfun="confirmfun"
+          @cancelfun="cancelfun"
+        ></AddClass>
+      </div>
+    </div>
 </template>
 <script>
   import useLoading from '@/hooks/loading';
-  import {getTechonology ,delTechonology } from "../../../../api/TechonologyManage.js"
-  
+  import {getTechonology ,delTechonology} from "../../../../api/TechonologyManage.js"
+  import AddClass from  './add-class.vue'
+
   //loading板子
   const { loading, setLoading } = useLoading(true);
   setLoading(false);
 
   export default {
   components:{
-    
+    AddClass,
   },
   data() {
     return {
-      visible:false,
+      visible: false,
       renderData: [],
     };
   },
   methods:{ 
     
-
+    //创建图层
+    addClassFun() {
+      this.visible = true;
+    },
+    cancelfun() {
+        this.visible =false 
+    },
    //获取技术栈列表
    handleCancel(){},
     getTechonologyList() {
@@ -86,11 +102,6 @@
         this.renderData=res.data.data
       })
     },
-    //删除技术栈list
-    //  创建事件
-    addClassFun() {
-      this.visible = true
-    },
     //删除事件
     delList(row){
       console.log(row.record.id);
@@ -98,7 +109,8 @@
         console.log(res);
         this.getTechonologyList();
       })
-    }
+    },
+    
   },
   created() {
     this.getTechonologyList();
@@ -118,4 +130,23 @@
       }
     }
   }
+  .mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  .addClassIpt {
+    width: 700px;
+    height: 250px;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    margin-top: 120px;
+    padding-top: 10px;
+    padding-left: 10px;
+    border-radius: 20px;
+  }
+}
 </style>
