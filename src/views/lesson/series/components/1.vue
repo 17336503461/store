@@ -41,7 +41,7 @@
                 {{ $t('删除') }}
               </a-button>
 
-              <a-modal v-model:visible="visible" @cancel="handleCancel" :on-before-ok="handleBeforeOk" unmountOnClose>
+              <a-modal v-model:visible="visible" @cancel="handleCancel" unmountOnClose>
               <template #title>
                 Title
               </template>
@@ -63,6 +63,7 @@
   import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
   import { Pagination } from '@/types/global';
   import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
+  const  visible = ref(false);
 
   
   const generateFormModel = () => {
@@ -83,7 +84,7 @@
     current: 1,
     pageSize: 20,
   };
-  
+  const handleCancel = () =>{}
   function delList (row) { 
     console.log(row.record.number);  
  

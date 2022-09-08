@@ -2,8 +2,8 @@
   <div>
     <h2 class="title">创建班级</h2>
     <!-- 分割线 -->
-    <a-divider :style="{ color: black }" />
-    <a-form :model="form" :style="{ width: '680px' }" @submit="submitClassFun">
+    <a-divider :style="{ color: '#000' }" />
+    <a-form :model="form" :style="{ width: '680px' }" >
       <!-- 输入框（班级名） -->
       <a-form-item field="classname" label="班级名称：" :rules="[{required:true,message:'name is required'}]" >
         <a-input
@@ -65,7 +65,7 @@
         /></a-form-item>
     </a-form>
     <!-- 分割线 -->
-    <a-divider :style="{ color: black }" />
+    <a-divider :style="{ color: '#000' }" />
     <!-- 交互按钮（取消和创建） -->
     <div class="btn">
       <a-button type="dashed" class="cancel" @click="cancelFun">取消</a-button>

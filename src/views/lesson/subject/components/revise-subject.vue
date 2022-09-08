@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2 class="title"></h2>
-    <a-divider :style="{ color: black }" />
-    <a-form :model="form"  :style="{ width: '680px' }" @submit="submitClassFun">
+    <a-divider :style="{ color: '#000' }" />
+    <a-form :model="form"  :style="{ width: '680px' }" >
       <a-form-item field="classname" label="科目名称：">
         <a-input
           v-model="form.classname"
@@ -22,7 +22,7 @@
       <a-button type="primary" class="confirm" @click="confirmFun_revise">修改</a-button>
       </div> 
     </a-form>
-    <a-divider :style="{ color: black }" />
+    <a-divider :style="{ color: '#000' }" />
   </div>
 </template>
 
