@@ -41,7 +41,7 @@
                 删除
               </a-button>
 
-              <a-modal v-model:visible="visible" @cancel="handleCancel" :on-before-ok="handleBeforeOk" unmountOnClose>
+              <a-modal v-model:visible="visible" @cancel="handleCancel"  unmountOnClose>
               <template #title>
                 Title
               </template>
@@ -75,6 +75,7 @@
   },
   methods:{ 
    //获取技术栈列表
+   handleCancel(){},
     getTechonologyList() {
       getTechonology().then((res)=>{
         console.log(res.data.data);
