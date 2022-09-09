@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="title">录入学员</h2>
+    <h2 class="title">编辑学员</h2>
     <!-- 分割线 -->
     <a-divider :style="{ color: black }" />
     <a-form :model="form" :style="{ width: '680px' }" @submit="submitClassFun">
@@ -108,6 +108,7 @@ emits: ['confirmfun', 'cancelfun'],
   }
   .btn {
     margin-left: 500px;
+    
     .cancel {
       margin-right: 20px;
       border: 1px solid #fff;
