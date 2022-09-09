@@ -51,14 +51,14 @@ export default {
     border-bottom: 1px solid #BBBBBB;
     color: var(--color-text-1);
   }
-  .choose ::v-deep .arco-col-19 {
+  .choose ::v-deep(.arco-col-19){
     padding-left: 0;
   }
 
-  .choose ::v-deep .arco-col-5 {
+  .choose ::v-deep(.arco-col-5) {
     padding-left: 74px;
   }
-  .choose ::v-deep .arco-form-item-content {
+  .choose ::v-deep(.arco-form-item-content) {
     flex: initial;
     width: auto;
   }  

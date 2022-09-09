@@ -48,12 +48,10 @@
       <a-table
         class="student_from"
         row-key="id"
-        :loading="loading"
         :pagination="pagination"
         :data="studentList"
         :bordered="false"
-        
-        @page-change="onPageChange"
+    
       >
         <template #columns>
           <a-table-column

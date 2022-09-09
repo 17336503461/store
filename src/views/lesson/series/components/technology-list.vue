@@ -14,7 +14,7 @@
         :pagination="pagination"
         :data="renderData"
         :bordered="false"
-        @page-change="onPageChange"
+
       >
         <template #columns>
           <a-table-column

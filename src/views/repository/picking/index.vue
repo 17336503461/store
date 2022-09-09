@@ -8,7 +8,7 @@
           <div>技术栈归属:&nbsp;&nbsp;后端 - mysql - 选择题</div>
           <div class="rate">
             <div>题型难度:&nbsp;&nbsp;</div>
-            <a-rate :default-value="4" readonly color="black"/>
+            <a-rate :default-value="4" readonly color="'black'"/>
           </div>
           <div>答题分数:&nbsp;&nbsp;5分</div>
         </div>

@@ -33,7 +33,6 @@
         :pagination="pagination"
         :data="classList"
         :bordered="false"
-        @page-change="onPageChange"
       >
         <template #columns>
           <a-table-column 
