@@ -7,13 +7,13 @@
         <a-col :span="7">
           <div class="student_search_input">
             <span>学员姓名</span>
-            <a-input v-model="params.searchRealname" class="input" placeholder="请输入学员姓名" />
+            <a-input v-model="params.realname" class="input" placeholder="请输入学员姓名" />
           </div>
         </a-col>
         <a-col :span="7">
           <div class="student_search_input">
             <span>入学时间</span>
-            <a-input v-model="params.searchenrollmentTimeShool" class="input" placeholder="请输入学员入学时间" />
+            <a-input v-model="params.enrollmentTimeShool" class="input" placeholder="请输入学员入学时间" />
           </div>
         </a-col>
       </a-row>
@@ -22,28 +22,29 @@
         <a-col :span="7">
           <div class="student_search_input">
             <span>学员手机</span>
-            <a-input v-model="params.searchMobile" class="input" placeholder="请输入学员手机" />
+            <a-input v-model="params.mobile" class="input" placeholder="请输入学员手机" />
           </div>
         </a-col>
         <a-col :span="7">
           <div class="student_search_input">
             <span>所在班级</span>
-            <a-input v-model="params.searchStudentClass" class="input" placeholder="请输入学员所在班级" />
+            <a-input v-model="params.groupId" class="input" placeholder="请输入学员所在班级" />
           </div>
         </a-col>
         <a-col :span="8">
           <a-button class="student_change student_reset" type="dashed" @click="resetFrom"
             >重置</a-button
           >
-          <a-button class="student_change" type="dashed" @click="searchStudentFun">查询</a-button>
+          <a-button class="student_change" type="dashed" @click="searchStudentFun(params)">查询</a-button>
         </a-col>
       </a-row>
     </div>
     <!-- 学员列表区 -->
     <div class="student_list">
-      <a-button class="student_entry" type="dashed" @click="addStudentFun"
-        >录入学员</a-button
-      >
+      <a-button class="student_entry" type="dashed" 
+        >录入学员</a-button>
+        <a-button class="student_entry" type="dashed" 
+        >下载录入模板</a-button>
       <a-table
         class="student_from"
         row-key="id"
@@ -77,12 +78,12 @@
           />
           <a-table-column
             :title="$t('学员班级')"
-            data-index="studentclass"
+            data-index="groupId"
             align="center"
           />
           <a-table-column
             :title="$t('练习题次数')"
-            data-index="num"
+            data-index="seriesId"
             align="center"
           />
           <a-table-column
@@ -132,64 +133,26 @@
 </template>
 
 <script>
-  import AddStudent from './student_add.vue'
   import EditStudent from './student_edit.vue'
   import { getStudentAPI, deleteStudentAPI,queryStudentAPI,addStudentAPI } from '../../../../api/studentlist'
 
   export default {
     components: {
-      AddStudent,
       EditStudent
     },
     data() {
       return {
             // 搜索对象
             params:{
-              searchRealname:'',
-              searchenrollmentTimeShool:'',
-              searchMobile:'',
-              searchStudentClass:'',
+              realname:'',
+              enrollmentTimeShool:'',
+              mobile:'',
+              groupId:'',
             },
                 
 
             // 学生列表
             studentList: [
-              {
-                id: '83',
-                realname:'戴龙邦',
-                mobile:'18720138586',
-                professional:'React',
-                studentclass:'Vip14',
-                num:'100',
-                enrollmentTimeShool:'2022-08-10 08:44:11',
-              },
-              {
-                id: '83',
-                realname:'帅哥',
-                mobile:'18720138586',
-                professional:'React',
-                studentclass:'Vip14',
-                num:'100',
-                enrollmentTimeShool:'2022-08-10 08:44:11',
-              },
-              {
-                id: '83',
-                realname:'美女',
-                mobile:'18720138586',
-                professional:'React',
-                studentclass:'Vip14',
-                num:'100',
-                enrollmentTimeShool:'2022-08-10 08:44:11',
-              },
-              {
-                id: '83',
-                realname:'戴龙城',
-                mobile:'18720138586',
-                professional:'React',
-                studentclass:'Vip14',
-                num:'100',
-                enrollmentTimeShool:'2022-08-10 08:44:11',
-              }
             ],
             // 新的学生列表
              newStudentList:[],            
@@ -207,16 +170,19 @@
   created() {
     this.acquireStudentList();
   },
+  
   methods: {
     async acquireStudentList() {
-      const data = await getStudentAPI()
-      console.log(data);
+      const res = await getStudentAPI(
+        { pageNum:1,pageSize:3},
+        {
+          'content-type': 'application/json',
+        }
+      );
+      this.studentList = [...res.data.data.list]
       
   },
-    // 添加学员对话框
-    addStudentFun() {
-      this.visible = true;
-    },
+
     editStudentFun(row) {
       this.visibleEdit = true
       console.log(row.record);
@@ -226,22 +192,43 @@
       this.visible = false
       this.visibleEdit = false
     },
+    
+    
     // 取消
     cancelfun() {
       this.visible = false
       this.visibleEdit = false
     },
     // 删除按钮
-    delStudentList(row) {
-      console.log(row);
+    async delStudentList(row) {
+      const res = await deleteStudentAPI(row.rowIndex)
+      if(res.data.code !== 200) {
+       this.$message.error('删除失败！')
+      }else{
+        this.$message.success('删除成功!')
+      }
+      this.acquireStudentList()
+      // 查看是否删除
+      console.log(this.studentList);
+      
+    },
+    // 查询操作
+    async searchStudentFun(data) {
+      console.log(data);
+      const res = await queryStudentAPI(data)
+      if(res.data.code === 200) {
+        this.resetFrom()
+      }
+      this.acquireStudentList()
     },
     // 重置表单
     resetFrom(){
-      this.searchRealname = '';
-      this.searchenrollmentTimeShool = ''
-      this.searchMobile =''
-      this.searchStudentClass =''
-    },
+      this.params.realname = '';
+      this.params.enrollmentTimeShool = '';
+      this.params.mobile = '';
+      this.params.groupId = '';
+    }
+    
     // 搜索
     // searchStudentFun(){
     //   // 输入姓名
@@ -351,6 +338,9 @@
       padding-left: 10px;
       border-radius: 20px;
     }
+  }
+  .Upload {
+    
   }
 
 </style>
