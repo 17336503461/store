@@ -2,8 +2,8 @@ import ajax from 'axios'
 import { getToken } from './token'
 
 const axios = ajax.create({
-
-  baseURL: 'http://eas.80boys.com'
+  //硬编码  打包的时候 会发生问题 
+  baseURL: import.meta.env.VITE_API_BASE_URL
 })
 
 // 添加请求拦截器

@@ -5,6 +5,7 @@ import {
   getUserInfo,
   LoginData,
 } from '@/api/user';
+import {loginByUserNameVerify} from '@/api/auth.js';
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
 import { UserState } from './types';
@@ -63,7 +64,8 @@ const useUserStore = defineStore('user', {
     // Login
     async login(loginForm: LoginData) {
       try {
-        const res = await userLogin(loginForm);
+        //const res = await userLogin(loginForm);
+        const res = await loginByUserNameVerify(loginForm)
         setToken(res.data.token);
       } catch (err) {
         clearToken();
