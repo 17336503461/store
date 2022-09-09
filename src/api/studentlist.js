@@ -1,31 +1,30 @@
-import request from "../utils/request";
+import request from "../utils/request"
 // 获取所有班级列表数据
-export const getStudentAPI = () => {
+export const getStudentAPI = (data,header) => {
   return request({
-    url: '/Student/addList',
-    method: 'POST'
+    url: '/Student/getList',
+    method: 'POST',
+    data,
+    headers: header
   })
 }
 
 // 防止eslint报错 Prefer default export 添加的假api
-export const deleteStudentAPI = (id) => {
+export const deleteStudentAPI = (data,header) => {
   return request({
-    url: '/Student/delete/{id}',
-    method: 'POST'
+    url: `/Student/delete/${data}`,
+    method: 'POST',
+    data,
+    headers: header
   })
 }
 // 查询学生列表
-export const queryStudentAPI = ({ realname,
-enrollmentTimeShool,mobile,studentclass }) => {
+export const queryStudentAPI = (data,header) => {
   return request({
     url: '/Student/getList',
     method: 'POST',
-    data: {
-      realname,
-      enrollmentTimeShool,
-      mobile,
-      studentclass 
-    }
+    data,
+    headers: header
   })
 }
 // 创建学员

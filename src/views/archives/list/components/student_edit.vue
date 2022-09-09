@@ -31,7 +31,7 @@
       <!-- 输入框（学习进度） -->
       <a-form-item field="classname" label="学习进度：">
         <a-input
-          v-model="form.professional"
+          v-model="form.groupId"
           placeholder="请输入学员学习进度"
           style="width: 400px"
         />
@@ -48,7 +48,7 @@
       <!-- 输入框（学生班级） -->
       <a-form-item field="classname" label="练习次数：">
         <a-input
-          v-model="form.num"
+          v-model="form.seriesId"
           placeholder="请输入学员练习次数"
           style="width: 400px"
         />
@@ -70,9 +70,11 @@
 
 <script>
 export default {
+  // 接收父组件传递的信息
   props:{
     teacherlist:{type:Array}
   },
+// 接收父组件中的方法
 emits: ['confirmfun', 'cancelfun'],
   data() {
     return {
@@ -82,8 +84,8 @@ emits: ['confirmfun', 'cancelfun'],
         realname:'',
         mobile:'',
         professional:'',
-        studentclass:'',
-        num:'',
+        groupId:'',
+        seriesId:'',
         enrollmentTimeShool:'',
       },
     };
@@ -92,7 +94,7 @@ emits: ['confirmfun', 'cancelfun'],
     // 创建事件
     confirmFun() {
       this.form.teacher = this.teacherlist[this.keyteacher]
-      this.$emit('confirmfun',this.form)
+      this.$emit('confirmfun')
     },
     // 取消创建事件
     cancelFun() {
