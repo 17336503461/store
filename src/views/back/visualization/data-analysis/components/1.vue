@@ -41,7 +41,7 @@
                 {{ $t('删除') }}
               </a-button>
 
-              <a-modal v-model:visible="visible" @cancel="handleCancel" :on-before-ok="handleBeforeOk" unmountOnClose>
+              <a-modal v-model:visible="visible" @cancel="handleCancel" unmountOnClose>
               <template #title>
                 Title
               </template>
@@ -127,7 +127,7 @@
       setLoading(false);
     }
   };
-
+  const handleCancel = () =>{}
   const search = () => {
     fetchData({
       ...basePagination,

@@ -3,17 +3,17 @@
     <h2 class="title"></h2>
     <a-divider :style="{ color: '#000' }" />
     <a-form :model="form"  :style="{ width: '680px' }" >
-      <a-form-item field="classname" label="科目名称：">
+      <a-form-item field="classname" label="技术栈名称：">
         <a-input
           v-model="form.classname"
-          placeholder="请输入科目名称"
+          placeholder="请输入技术栈名称"
           style="width: 400px"
         />
       </a-form-item>
-      <a-form-item field="seriesId" label="科目 id : " >
+      <a-form-item field="seriesId" label="时间" >
         <a-input
           v-model="form.seriesId"
-          placeholder="请输入科目id"
+          placeholder="请输入时间"
           style="width: 400px"
         />
       </a-form-item>
@@ -30,6 +30,7 @@
 
 import {addAccount} from '../../../../api/AccountManagement.JS'
 import {getAccount} from '../../../../api/AccountManagement.JS'
+import {addTechonology} from "../../../../api/TechonologyManage.js"
 export default {
   props:{
     teacherlist:{type:Array}
@@ -45,28 +46,17 @@ export default {
     };
   },
   methods: {
-    //获取科目
-    getAccountList () {
-      getAccount().then((res) => {
-        console.log(res.data.data);
-        this.classList = res.data.data
-      }).catch((err)=>{
-        console.log(err);
-      })
-    },
     //跳转页面
     gotoa() {
       this.$router.go(0)
     },
     // 创建事件
     confirmFun(form) {
-      // this.form.teacher = this.teacherlist[this.keyteacher]
-      // this.$emit('confirmfun',this.form)
       console.log(this.form.classname,this.form.seriesId);
       //添加科目
-      addAccount({
-        name:this.form.classname,
-        seriesId:this.form.seriesId,
+      addTechonology({
+        title:this.form.classname,
+        createAt:this.form.seriesId,
       }).then((res)=>{
         alert("添加成功!");
         // getAccountList(); 写不出来 组件组件 调用函数 

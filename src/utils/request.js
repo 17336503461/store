@@ -2,7 +2,8 @@ import ajax from 'axios'
 import { getToken } from './token'
 
 const axios = ajax.create({
-  baseURL: ' http://eas.80boys.com'
+
+  baseURL: 'http://eas.80boys.com'
 })
 
 // 添加请求拦截器

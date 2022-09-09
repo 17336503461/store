@@ -8,8 +8,8 @@
       <!-- 按班主任搜索 -->
       <span class="linemarginleft linemarginright">班主任：</span>
       <a-dropdown @select="selectTeacherFun">
-        <a-button>{{
-          keyteacher !== ''? teacherList[keyteacher] : '点我选择'
+        <a-button @click="clickTeacherFun">{{
+          keyteacher !== '' ? teacherList[keyteacher] : '点我选择'
         }}</a-button>
         <template #content>
           <a-doption
@@ -54,16 +54,16 @@
           :data="classList"
           :sticky-header="100"
           :pagination="pagination"
-        />
-        
+        >
+          <template #operate="{  }">
+            <a-button type="outline" size="mini" class="operatebtn">查看排课</a-button>
+            <a-button type="outline" size="mini" class="operatebtn">查看学员</a-button>
+            <a-button type="outline" size="mini">排课</a-button>
+          </template>
+        </a-table>
+
         <!-- 加入三个操作方法按钮(错误) -->
         <!-- <template #cell="row">
-              <a-button v-permission="['admin']" type="text" size="small">
-                {{ $t('编辑') }}
-              </a-button>
-              <a-button v-permission="['admin']" type="text" size="small" @click="delList(row)">
-                {{ $t('删除') }}
-              </a-button>
         </template> -->
       </a-space>
     </div>
@@ -100,33 +100,34 @@ export default {
         },
         {
           title: '班级名',
-          dataIndex: 'attributes.classname',
+          dataIndex: 'title',
           // width: 140
         },
         {
           title: '现有人数',
-          dataIndex: 'attributes.studentnum',
+          dataIndex: 'currentNumber',
           // width: 140
         },
         {
           title: '创建时间',
-          dataIndex: 'attributes.time',
+          dataIndex: 'createAt',
           // width: 140
         },
         {
           title: '就业人数',
-          dataIndex: 'attributes.employment',
+          dataIndex: 'employment',
           // width: 140
         },
         {
           title: '班主任',
-          dataIndex: 'attributes.teacher',
+          dataIndex: 'teacherId',
           // width: 140
         },
         {
           title: '操作',
           dataIndex: 'operate',
-          width: 210,
+          slotName: 'operate',
+          width: 250,
         },
       ],
       // 班级列表数据(classList为展示数据)
@@ -141,105 +142,125 @@ export default {
       keyteacher: '',
       // 班级列表分页
       pagination: {
-        pageSize: 5,
+        pageNum: 1,
+        pageSize: 6,
       },
       // 创建班级弹窗是否可见
       visible: false,
-      
     };
   },
   created() {
     this.initialization();
   },
   methods: {
+    // 获取全部班级数据
+    async getAllclassDataFun() {
+      const res = await getClassesAPI(
+        { pageNum: 0, pageSize: 0 },
+        {
+          'content-type': 'application/json',
+        }
+      );
+      this.allClassList = [...res.data.data.list];
+      this.classList = [...res.data.data.list];
+      // 折叠备用内容
+      // console.log(res);
+      // this.allClassList = []
+      // this.classList = []
+      // this.allClassList = [...this.allClassList, ...res.data.data.list];
+      // this.classList = [...this.classList, ...res.data.data.list];
+      // if (this.pageNum < res.data.data.total) {
+      //   this.pageNum += 1;
+      //   this.getAllclassDataFun();
+      // }
+    },
     // 初始化
-    async initialization() {
-      // 获取全部班级数据
-      const res = await getClassesAPI();
-      this.allClassList = res.data.data;
-      this.classList = res.data.data;
-      // console.log(this.classList)
-
-      // 过滤出所有班主任用于下拉框
-      this.teacherList = this.classList.map((item) => {
-        return item.attributes.teacher;
-      });
-      // 班主任数组去重
-      this.teacherList = Array.from(new Set(this.teacherList));
-      // console.log(this.teacherList);
+    initialization() {
+      this.getAllclassDataFun();
     },
     // 创建班级出弹框事件
     addClassFun() {
       this.visible = true;
     },
+    // 点击选择班任事件
+    clickTeacherFun() {
+      // 过滤出所有班主任用于下拉框
+      this.teacherList = this.allClassList.map((item) => {
+        return item.teacherId;
+      });
+      console.log(this.teacherList);
+      // 班主任数组去重
+      this.teacherList = Array.from(new Set(this.teacherList));
+      // console.log(this.teacherList);
+    },
     // 下拉框选择班任事件
     selectTeacherFun(value) {
       this.keyteacher = value;
-      console.log(this.keyteacher);
+      // console.log(this.keyteacher);
     },
     // 点击搜索按钮过滤事件
     searchClassFun() {
       // 输入关键词 未选择班任
       if (this.keyword !== '' && this.keyteacher === '') {
         this.classList = this.allClassList.filter((item) => {
-          return item.attributes.classname.indexOf(this.keyword) !== -1;
+          // console.log(item.title);
+          return item.title && item.title.indexOf(this.keyword) !== -1;
         });
         console.log('输入关键词 未选择班任');
       }
       // 未输入关键词 选择班任
       else if (this.keyword === '' && this.keyteacher !== '') {
         this.classList = this.allClassList.filter((item) => {
-          return (
-            item.attributes.teacher.indexOf(
-              this.teacherList[this.keyteacher]
-            ) !== -1
-          );
+          return item.teacherId === this.teacherList[this.keyteacher];
         });
-        console.log(typeof(this.keyteacher));
+        console.log(typeof this.keyteacher);
         console.log('未输入关键词 选择班任');
       }
       // 输入关键词 选择班任
       else if (this.keyword !== '' && this.keyteacher !== '') {
         this.classList = this.allClassList.filter((item) => {
           return (
-            item.attributes.teacher.indexOf(
-              this.teacherList[this.keyteacher]
-            ) !== -1 && item.attributes.classname.indexOf(this.keyword) !== -1
+            item.teacherId === this.teacherList[this.keyteacher] &&
+            item.title.indexOf(this.keyword) !== -1
           );
         });
         console.log('输入关键词 选择班任');
       }
       // 空按或其他未知情况
-      else if (this.keyword === '' && this.keyteacher === undefined){
+      else if (this.keyword === '' && this.keyteacher === undefined) {
         this.classList = this.allClassList;
-        console.log('403');
-      }
-      else {
+        console.log('未关键词 未选择班任 403');
+      } else {
         this.classList = this.allClassList;
-        console.log('404');
+        console.log('未关键词 未选择班任 404');
       }
       // 重置输入框和下拉框
       this.keyword = '';
       this.keyteacher = '';
     },
     // 子组件中创建按钮点击
-    async confirmfun(formdata){
+    async confirmfun(formdata) {
       // proxy转换成普通对象
-      const res = JSON.parse(JSON.stringify(formdata))
-      console.log(res);
-      await addClassAPI(res)
-      this.initialization()
-      this.visible = false
+      const res = JSON.parse(JSON.stringify(formdata));
+      console.log(res,{
+          'content-type': 'application/json',
+        });
+      await addClassAPI(res);
+      this.initialization();
+      this.visible = false;
     },
     // 子组件中取消按钮点击
-    cancelfun(){
-      this.visible = false
-    }
+    cancelfun() {
+      this.visible = false;
+    },
   },
 };
 </script>
 
 <style scoped lang="less">
+.operatebtn {
+  margin-right: 10px;
+}
 .searchbutton {
   margin-left: 84px;
 }
@@ -265,7 +286,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 450px;
+    height: 400px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;

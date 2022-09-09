@@ -18,8 +18,8 @@
         />
       </a-form-item>
       <div class="btn">
-      <a-button type="dashed" class="cancel" @click="cancelFun">取消</a-button>
-      <a-button type="primary" class="confirm" @click="confirmFun">创建</a-button>
+      <a-button type="dashed" class="cancel" @click="cancelFun_revise">取消</a-button>
+      <a-button type="primary" class="confirm" @click="confirmFun_revise">修改</a-button>
       </div> 
     </a-form>
     <a-divider :style="{ color: '#000' }" />
@@ -30,6 +30,7 @@
 
 import {addAccount} from '../../../../api/AccountManagement.JS'
 import {getAccount} from '../../../../api/AccountManagement.JS'
+import {reviseAccount} from '../../../../api/AccountManagement.JS'
 export default {
   props:{
     teacherlist:{type:Array}
@@ -58,27 +59,28 @@ export default {
     gotoa() {
       this.$router.go(0)
     },
-    // 创建事件
-    confirmFun(form) {
-      // this.form.teacher = this.teacherlist[this.keyteacher]
-      // this.$emit('confirmfun',this.form)
+
+    // 修改科目
+    confirmFun_revise(form) {
       console.log(this.form.classname,this.form.seriesId);
-      //添加科目
-      addAccount({
-        name:this.form.classname,
-        seriesId:this.form.seriesId,
+      //修改科目
+      reviseAccount({
+        subjectId: 54,
+        name:"111" ,
+        seriesId:this.form.classname,
+        updateUid:this.form.seriesId,
       }).then((res)=>{
-        alert("添加成功!");
+        alert("修改成功!");
         // getAccountList(); 写不出来 组件组件 调用函数 
         this.gotoa();
       })
       console.log('1');
       // 关闭窗口
-      this.$emit('cancelfun',false)
+      this.$emit('cancelFun_revise',false)
     },
-    // 取消创建事件
-    cancelFun() {
-      this.$emit('cancelfun',false)
+    // 取消事件
+    cancelFun_revise() {
+      this.$emit('cancelFun_revise',false)
     }
   },
 };

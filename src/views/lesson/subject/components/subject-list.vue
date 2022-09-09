@@ -36,33 +36,36 @@
         @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column
+          <a-table-column 
             :title="$t('ID')"
+            prop="id"
             data-index="id"
           />
           <a-table-column
             :title="$t('科目名')"
-            data-index="name"
+            prop="name"
+            data-index="title"
           />
           <a-table-column
             :title="$t('技术栈')"
-            data-index="technology"
+            data-index="teacherId"
           />
           <a-table-column
             :title="$t('创建时间')"
-            data-index="createdTime"
+            data-index="createAt"
           />
           <a-table-column
             :title="$t('操作')"
             data-index="operations"
           >
             <template #cell="row">
-              <a-button v-permission="['admin']" type="text" size="small">
+              <a-button @click ="reviseList(row)" v-permission="['admin']" type="text" size="small">
                 {{ $t('编辑') }}
               </a-button>
               <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
                 {{ $t('删除') }}
               </a-button>
+              
             </template>
           </a-table-column>
         </template>
@@ -72,10 +75,19 @@
     <div v-show="visible" class="mask">
       <div class="addClassIpt">
         <AddClass
-          :teacherlist="teacherList"
+       
           @confirmfun="confirmfun"
           @cancelfun="cancelfun"
         ></AddClass>
+      </div>
+    </div>
+    <div v-show="visible_revise" class="mask">
+      <div class="addClassIpt">
+        <ReviseClass
+          @confirmFun_revise="confirmFun_revise"
+          @cancelFun_revise="cancelFun_revise"
+          >
+        </ReviseClass>
       </div>
     </div>
   </div>
@@ -86,42 +98,40 @@
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
+import {getAccount} from '../../../../api/AccountManagement.JS'
+import {deleteAccount} from '../../../../api/AccountManagement.JS' 
+import {reviseAccount} from '../../../../api/AccountManagement.JS' 
+import ReviseClass from './revise-subject.vue'
 export default {
   components:{
     SearchSubject,
     AddClass,
+    ReviseClass,
   },
   data() {
     return {
-      // 班级列表表头（注释掉width实现自适应）
-      allClassList: [],
-      classList: [{
-        id : 82,
-        name: "Vue" ,
-        technology:"Web开发前端",
-        createdTime :"2022-03-07 10:24",
-      },{
-        id : 21,
-        name: "HTML/JavaScript" ,
-        technology:"Web开发前端",
-        createdTime :"2021-08-08 18:07",
-      },{
-        id : 37,
-        name: "Linux/MQ" ,
-        technology:"WEB开发后端",
-        createdTime :"2021-06-12 22:28",
-      }],
+      classList: [],
       // 创建新班级数据
       newClassInfo: {},
       // 班级列表分页
       pagination: {
-        pageSize: 5,
+        pageSize: 25,
       },
       // 创建班级弹窗是否可见
       visible: false,
+      visible_revise:false,
     };
   },
-  methods:{
+  methods:{ 
+    //获取科目列表
+    getAccountList () {
+      getAccount().then((res) => {
+        console.log(res.data.list);
+        this.classList = res.data.list
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },
     cancelfun() {
         this.visible =false 
     },
@@ -137,13 +147,36 @@ export default {
       console.log(formdata);
       this.visible = false
       console.log(this.visible);
-      
-      
     },
+    // 删除科目 
     delList(row) {
-      console.log(row);
-      
+      console.log(row.record.id);
+      console.log(typeof(row.record.id));
+      console.log(typeof(deleteAccount));
+      deleteAccount({
+        subjectId : row.record.id
+      }).then((res)=>{
+        alert("删除成功!") ;
+        // 更新列表
+        this.getAccountList();
+      })
+    },
+    //修改科目
+    cancelFun_revise(){
+      this.visible_revise =false 
+    },
+    reviseList() {
+      //row
+      // console.log(row.record.id);
+      // console.log(row.record.name);
+      //等待更改
+      //缺少一个修改的弹窗 然后去 和add 一样
+      this.visible_revise = true;
     }
+    
+  },
+  created() {
+    this.getAccountList();
   }
 }
 </script>
@@ -174,7 +207,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 200px;
+    height: 250px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;
