@@ -80,7 +80,7 @@
 </template>
 <script>
   import useLoading from '@/hooks/loading';
-  import {getTechonology ,delTechonology} from "../../../../api/TechonologyManage.js"
+  import {getTechonology ,delTechonology} from "@/api/TechonologyManage.js"
   import AddClass from  './add-class.vue'
   import ReviseClass from  './revise-subject.vue'
   //loading板子

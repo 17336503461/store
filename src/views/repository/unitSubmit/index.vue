@@ -6,20 +6,16 @@
             <div className="total">
 
                 <p className="left">&nbsp;&nbsp;技术栈:
-                    <select>
-                        <option value="push">下拉菜单</option>
-                        <option value="saab">Java</option>
-                        <option value="opel">Mysql</option>
-                        <option value="audi">Vue</option>
+                    <select v-model="series" @change="getSubjectList">
+                        <option>请选择</option>
+                        <option v-for="(item,index) in techlist" :value="item.id"  key="index" >{{item.title}}</option>
                     </select>
                 </p>
                 <p className="right">
                     科目:
-                    <select>
-                        <option value="push">下拉菜单</option>
-                        <option value="saab">Saab</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <select v-model="subject">
+                        <option>请选择</option>
+                        <option v-for="(item,index) in subjectlist" :value="item.id"  key="index" >{{item.title}}</option>
                     </select>
                 </p>
             </div>
@@ -57,14 +53,9 @@
             </div>
             <div className="teacher-image">
                 <div className="image-left">&nbsp;&nbsp;对当前授课老师印象:</div>
-                <div className="image-right" @click="teacher()">
-                    <a-space direction="vertical" size="large" fill>
-                        <!--<a-descriptions :data="data"  :align="{ label: 'right' }" />-->
-                        <a-descriptions :data="data"  :column="{xs:2, md:2, lg:4}">
-                        <a-descriptions-item v-for="item of data" :label="item.label" :align="{ label: 'right'}" >
-                            <a-tag>{{ item.value }}</a-tag>
-                        </a-descriptions-item>
-                    </a-descriptions>
+                <div className="image-right">
+                    <a-space wrap>
+                        <a-tag v-for="(item, index) of data" :key="index" :color="coloring()" checkable bordered>{{ item.value }}</a-tag>
                     </a-space>
                 </div>
 
@@ -83,29 +74,41 @@
         </div>
     </div>
 </template>
-<script  lang="ts">
+<script>
 //import postgetList from './views/unitSubmit.vue';//request.js还没写
 //import {postgetList} from '';
+import {getTechonology} from "@/api/TechonologyManage.js"
+import {getAccount} from '@/api/AccountManagement.JS'
 export default {
     name: 'UnitSubmit',
     data() {
         return {
             techlist: [],//技术栈分类
             subjectlist: [],//科目分类
-
             address: '',
             write: '',
-
-
+            series:0,
+            subject:0,
         }
     },
     methods: {
-        teacher() {
-
+        coloring() {
+	        return '#' + (Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0'))
+        },
+        getSeriesList(){
+            getTechonology().then(r=>{
+                this.techlist = r.data.data
+            })
+        },
+        getSubjectList(){
+            if ( this.series > 0 )
+                getAccount({seriesId:this.series}).then(r=>{
+                    this.subjectlist = r.data.list
+                })
         }
     },
     created() {
-        //生命周期钩子
+        this.getSeriesList()
     },
     setup() {
         const data = [{

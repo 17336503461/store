@@ -133,7 +133,7 @@
 <script>
   import EditStudent from './student_edit.vue'
   import { getStudentAPI, deleteStudentAPI,queryStudentAPI,addStudentAPI } from '../../../../api/studentlist'
-
+  import mitt from '@/utils/mitt.js';
   export default {
     components: {
       EditStudent
@@ -221,6 +221,7 @@
     },
     // 重置表单
     resetFrom(){
+      mitt.emit('add', 1 );
       this.params.realname = '';
       this.params.enrollmentTimeShool = '';
       this.params.mobile = '';

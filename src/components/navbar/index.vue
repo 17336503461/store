@@ -6,6 +6,7 @@
           alt="logo"
           src="//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/dfdba5317c0c20ce20e64fac803d52bc.svg~tplv-49unhts6dw-image.image"
         />
+        {{num}}
         <a-typography-title
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
@@ -194,6 +195,7 @@
   import { LOCALE_OPTIONS } from '@/locale';
   import useLocale from '@/hooks/locale';
   import useUser from '@/hooks/user';
+  import mitt from '@/utils/mitt.js';
   import MessageBox from '../message-box/index.vue';
 
   const appStore = useAppStore();
@@ -226,6 +228,10 @@
   const setVisible = () => {
     appStore.updateSettings({ globalSettings: true });
   };
+  const num = ref(1);
+  mitt.on('add', e => {
+    num.value= num.value + e;
+  })
   const refBtn = ref();
   const triggerBtn = ref();
   const setPopoverVisible = () => {
