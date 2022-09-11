@@ -36,7 +36,6 @@
           style="width: 400px"
         />
       </a-form-item>
-      
       <!-- 输入框（学生班级） -->
       <a-form-item field="classname" label="学员班级：">
         <a-input
@@ -69,11 +68,14 @@
 </template>
 
 <script>
+  import mitt from '@/utils/mitt';
+
 export default {
   // 接收父组件传递的信息
   props:{
-    teacherlist:{type:Array}
+    editstudent: {type:Object}
   },
+  
 // 接收父组件中的方法
 emits: ['confirmfun', 'cancelfun'],
   data() {
@@ -88,13 +90,13 @@ emits: ['confirmfun', 'cancelfun'],
         seriesId:'',
         enrollmentTimeShool:'',
       },
+      
     };
   },
   methods: {
     // 创建事件
     confirmFun() {
-      this.form.teacher = this.teacherlist[this.keyteacher]
-      this.$emit('confirmfun')
+      this.$emit('confirmfun',this.form)
     },
     // 取消创建事件
     cancelFun() {

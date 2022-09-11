@@ -41,10 +41,16 @@
     </div>
     <!-- 学员列表区 -->
     <div class="student_list">
-      <a-button class="student_entry" type="dashed" 
+      <a-upload class="uploadStudent" v-model:file-list="fileList" action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+    <a-button>
+      <upload-outlined></upload-outlined>
+      Upload
+    </a-button>
+  </a-upload>
+      <!-- <a-button class="student_entry" type="dashed" @click="addStudentBtn"
         >录入学员</a-button>
-        <a-button class="student_entry" type="dashed" 
-        >下载录入模板</a-button>
+        <a-button class="student_entry" type="dashed" @click="pluginDownload"
+        >下载录入模板</a-button> -->
       <a-table
         class="student_from"
         row-key="id"
@@ -107,21 +113,11 @@
         </template>
       </a-table>
     </div>
-    <!-- 新增学员区 -->
-    <div v-show="visible" class="mask">
-      <div class="StudentIpt">
-        <AddStudent
-          :teacherlist="teacherList"
-          @confirmfun="confirmfun"
-          @cancelfun="cancelfun"
-        ></AddStudent>
-      </div>
-    </div>
     <!-- 编辑学员区 -->
     <div v-show="visibleEdit" class="mask">
       <div class="StudentIpt">
         <EditStudent
-          :teacherlist="teacherList"
+          :editstudent="editStudent"
           @confirmfun="confirmfun"
           @cancelfun="cancelfun"
         ></EditStudent>
@@ -131,9 +127,10 @@
 </template>
 
 <script>
+  import mitt from '@/utils/mitt';
   import EditStudent from './student_edit.vue'
-  import { getStudentAPI, deleteStudentAPI,queryStudentAPI,addStudentAPI } from '../../../../api/studentlist'
-  import mitt from '@/utils/mitt.js';
+  import { getStudentAPI, deleteStudentAPI,addStudentAPI ,updateStudentAPI} from '../../../../api/studentlist'
+
   export default {
     components: {
       EditStudent
@@ -152,16 +149,16 @@
             // 学生列表
             studentList: [
             ],
-            // 新的学生列表
-             newStudentList:[],            
+            // 编辑学生对象
+             editStudent: {},            
             // 分页
             pagination: {
               pageSize: 3,
             },
             // 录入弹窗
-            visible: false,
+            
             visibleEdit: false,
-            teacherList:[]
+            
           }
     },
 
@@ -181,20 +178,21 @@
       
   },
 
-    editStudentFun(row) {
+
+    async editStudentFun(row) {
       this.visibleEdit = true
-      console.log(row.record);
+      this.editStudent = JSON.parse(JSON.stringify(row.record))
+      const res = await updateStudentAPI({})
     },
     // 确定
     confirmfun() {
-      this.visible = false
+
       this.visibleEdit = false
     },
     
     
     // 取消
     cancelfun() {
-      this.visible = false
       this.visibleEdit = false
     },
     // 删除按钮
@@ -206,26 +204,42 @@
         this.$message.success('删除成功!')
       }
       this.acquireStudentList()
-      // 查看是否删除
-      console.log(this.studentList);
+     
       
     },
     // 查询操作
     async searchStudentFun(data) {
-      console.log(data);
-      const res = await queryStudentAPI(data)
+      const res = await getStudentAPI(
+        {
+          pageNum:1,
+          pageSize:3,
+          realname:data.realname,
+          enrollmentTimeShool:data.enrollmentTimeShool,
+          mobile:data.mobile,
+          groupId:data.mobile
+        },
+        {'content-type': 'application/json',})
+      // 搜索成功，清空表单
       if(res.data.code === 200) {
         this.resetFrom()
       }
-      this.acquireStudentList()
+      this.studentList = [...res.data.data.list]
     },
     // 重置表单
     resetFrom(){
-      mitt.emit('add', 1 );
+      
       this.params.realname = '';
       this.params.enrollmentTimeShool = '';
       this.params.mobile = '';
       this.params.groupId = '';
+    },
+    // 批量录入
+    addStudentBtn() {
+
+    },
+    // 下载模板
+    pluginDownload(){
+     
     }
     
     // 搜索
@@ -316,6 +330,10 @@
   }
   .student_from {
     margin: 27px 20px 0 20px;
+  }
+
+  .uploadStudent{
+    margin: 28px 0 0 19px;
   }
 
   .mask {

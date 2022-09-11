@@ -19,9 +19,9 @@ export const deleteStudentAPI = (data,header) => {
   })
 }
 // 查询学生列表
-export const queryStudentAPI = (data,header) => {
+export const updateStudentAPI = (data,header) => {
   return request({
-    url: '/Student/getList',
+    url: '/Student/update',
     method: 'POST',
     data,
     headers: header
