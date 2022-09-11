@@ -41,12 +41,8 @@
     </div>
     <!-- 学员列表区 -->
     <div class="student_list">
-      <a-upload class="uploadStudent" v-model:file-list="fileList" action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
-    <a-button>
-      <upload-outlined></upload-outlined>
-      Upload
-    </a-button>
-  </a-upload>
+      <a-upload class="uploadStudent" action="https://www.mocky.io/v2/5cc8019d300000980a055e76">
+      </a-upload>
       <!-- <a-button class="student_entry" type="dashed" @click="addStudentBtn"
         >录入学员</a-button>
         <a-button class="student_entry" type="dashed" @click="pluginDownload"
@@ -114,29 +110,96 @@
       </a-table>
     </div>
     <!-- 编辑学员区 -->
-    <div v-show="visibleEdit" class="mask">
-      <div class="StudentIpt">
-        <EditStudent
-          :editstudent="editStudent"
-          @confirmfun="confirmfun"
-          @cancelfun="cancelfun"
-        ></EditStudent>
-      </div>
+    <div>
+      <a-modal
+        :visible="visibleEdit"
+        title="编辑学员"
+        width="640px"
+        
+        @ok="handleOk"
+        @cancel="handleCancel"
+      >
+      <a-form :model="form" :style="{ width: '600px' }">
+      <!-- 输入框（ID） -->
+      <a-form-item field="classname" label="学员ID：">
+        <a-input
+          v-model="form.id"
+          placeholder="请输入学员ID"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <!-- 输入框（姓名） -->
+      <a-form-item field="classname" label="学员姓名：">
+        <a-input
+          v-model="form.realname"
+          placeholder="请输入学员姓名"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <!-- 输入框（学生手机） -->
+      <a-form-item field="classname" label="学员手机：">
+        <a-input
+          v-model="form.mobile"
+          placeholder="请输入学员手机"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <!-- 输入框（学习进度） -->
+      <a-form-item field="classname" label="学习进度：">
+        <a-input
+          v-model="form.groupId"
+          placeholder="请输入学员学习进度"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <!-- 输入框（学生班级） -->
+      <a-form-item field="classname" label="学员班级：">
+        <a-input
+          v-model="form.studentclass"
+          placeholder="请输入学员班级"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <!-- 输入框（学生班级） -->
+      <a-form-item field="classname" label="练习次数：">
+        <a-input
+          v-model="form.seriesId"
+          placeholder="请输入学员练习次数"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <!-- 日期选择器（创建时间） -->
+      <a-form-item field="time" label="入学时间：">
+        <a-date-picker v-model="form.enrollmentTimeShool" style="width: 400px" />
+      </a-form-item>
+      
+    </a-form>
+      </a-modal>
   </div>
   </div>
 </template>
 
 <script>
   import mitt from '@/utils/mitt';
-  import EditStudent from './student_edit.vue'
+  
   import { getStudentAPI, deleteStudentAPI,addStudentAPI ,updateStudentAPI} from '../../../../api/studentlist'
 
   export default {
     components: {
-      EditStudent
+     
     },
     data() {
       return {
+         // 表格收集的数据
+            form: {
+              id: '',
+              realname:'',
+              mobile:'',
+              professional:'',
+              groupId:'',
+              seriesId:'',
+              enrollmentTimeShool:'',
+            },
             // 搜索对象
             params:{
               realname:'',
@@ -144,7 +207,6 @@
               mobile:'',
               groupId:'',
             },
-                
 
             // 学生列表
             studentList: [
@@ -167,6 +229,7 @@
   },
   
   methods: {
+    
     async acquireStudentList() {
       const res = await getStudentAPI(
         { pageNum:1,pageSize:3},
@@ -179,20 +242,37 @@
   },
 
 
-    async editStudentFun(row) {
-      this.visibleEdit = true
-      this.editStudent = JSON.parse(JSON.stringify(row.record))
-      const res = await updateStudentAPI({})
+   editStudentFun(row) {
+    this.visibleEdit = true;
+    this.form.id = row.record.id
+    this.form.realname = row.record.realname
+    this.form.mobile = row.record.mobile
+    this.form.professional = row.record.professional
+    this.form.groupId = row.record.groupId
+    this.form.seriesId = row.record.seriesId
+    this.form.enrollmentTimeShool = row.record.enrollmentTimeShool
     },
     // 确定
-    confirmfun() {
-
-      this.visibleEdit = false
+   
+    async handleOk() {
+      const res = await updateStudentAPI({
+        id: this.form.id,
+        realname:this.form.realname,
+        mobile:this.form.mobile,
+        professional:this.form.professional, 
+        groupId:this.form.groupId ,
+        seriesId:this.form.seriesId,
+        enrollmentTimeShool:this.form.enrollmentTimeShool
+      },{
+        'content-type': 'application/json'
+      })
+      this.visibleEdit = false;
+      this.acquireStudentList()
+      
     },
     
-    
     // 取消
-    cancelfun() {
+    handleCancel() {
       this.visibleEdit = false
     },
     // 删除按钮
@@ -356,8 +436,12 @@
       border-radius: 20px;
     }
   }
-  .Upload {
+
+  .student_edit {
     
+  }
+  .title {
+    margin-left: 50px;
   }
 
 </style>
