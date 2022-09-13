@@ -44,14 +44,13 @@
                 删除
               </a-button>
 
-              <!-- <a-modal v-model:visible="visible" @cancel="handleCancel"  unmountOnClose>
+              <a-modal v-model:delvisible="delvisible" @cancel="handleCancel" >
               <template #title>
                 Title
               </template>
-              <div>You can cusstomize modal body text by the current situation. This modal will be closed immediately once you
-                press the OK button.
+              <div>是否删除
               </div>
-            </a-modal> -->
+            </a-modal>
 
             </template>
           </a-table-column>
@@ -117,8 +116,10 @@
       this.visible_revise =false 
     },
     
+
+    handleCancel(){},
+
    //获取技术栈列表
-   handleCancel(){},
     getTechonologyList() {
       getTechonology().then((res)=>{
         console.log(res.data.data);
@@ -131,6 +132,7 @@
       console.log(row.record.id);
       delTechonology(row.record.id).then((res)=>{
         console.log(res);
+        alert("删除成功！");
         this.getTechonologyList();
       })
     },

@@ -61,6 +61,8 @@ export default {
         alert("添加成功!");
         // getAccountList(); 写不出来 组件组件 调用函数 
         this.gotoa();
+      }).catch((err)=>{
+        alert("添加失败！")
       })
       console.log('1');
       // 关闭窗口
