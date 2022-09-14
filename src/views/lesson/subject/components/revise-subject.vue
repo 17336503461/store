@@ -19,7 +19,7 @@
       </a-form-item>
       <div class="btn">
       <a-button type="dashed" class="cancel" @click="cancelFun_revise">取消</a-button>
-      <a-button type="primary" class="confirm" @click="confirmFun_revise">修改</a-button>
+      <a-button type="primary" class="confirm" @click="confirmFun_revise()">修改</a-button>
       </div> 
     </a-form>
     <a-divider :style="{ color: '#000' }" />
@@ -32,9 +32,7 @@ import {addAccount} from '../../../../api/AccountManagement.JS'
 import {getAccount} from '../../../../api/AccountManagement.JS'
 import {reviseAccount} from '../../../../api/AccountManagement.JS'
 export default {
-  props:{
-    teacherlist:{type:Array}
-  },
+  props:["row_"],
   data() {
     return {
       // classname:[],
@@ -42,7 +40,9 @@ export default {
       form: {
         classname: '',
          seriesId:'' ,
+
       },
+      
     };
   },
   methods: {
@@ -63,12 +63,13 @@ export default {
     // 修改科目
     confirmFun_revise(form) {
       console.log(this.form.classname,this.form.seriesId);
+      console.log(this.row_);
       //修改科目
       reviseAccount({
-        subjectId: 54,
-        name:"111" ,
-        seriesId:this.form.classname,
-        updateUid:this.form.seriesId,
+        subjectId: this.row_, // 要修改的id
+        name:this.form.classname,
+        seriesId:this.form.seriesId, // 改成什么id
+        updateUid :"1",
       }).then((res)=>{
         alert("修改成功!");
         // getAccountList(); 写不出来 组件组件 调用函数 
