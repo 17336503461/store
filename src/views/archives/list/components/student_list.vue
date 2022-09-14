@@ -356,7 +356,6 @@
       },
       fileChange(e) {
         // file 对象数组
-        console.log(e.target.files);
         if (e.target.files.length) {
           const file = e.target.files[0];
           this.doReadExcelFile(file);
