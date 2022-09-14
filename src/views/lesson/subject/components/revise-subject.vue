@@ -31,6 +31,8 @@
 import {addAccount} from '../../../../api/AccountManagement.JS'
 import {getAccount} from '../../../../api/AccountManagement.JS'
 import {reviseAccount} from '../../../../api/AccountManagement.JS'
+import mitt from '@/utils/mitt.js';
+
 export default {
   props:["row_"],
   data() {
@@ -42,7 +44,7 @@ export default {
          seriesId:'' ,
 
       },
-      
+      data :"" , 
     };
   },
   methods: {
@@ -63,10 +65,10 @@ export default {
     // 修改科目
     confirmFun_revise(form) {
       console.log(this.form.classname,this.form.seriesId);
-      console.log(this.row_);
+      console.log(this.data.record.id);
       //修改科目
       reviseAccount({
-        subjectId: this.row_, // 要修改的id
+        subjectId: this.data.record.id, // 要修改的id
         name:this.form.classname,
         seriesId:this.form.seriesId, // 改成什么id
         updateUid :"1",
@@ -83,6 +85,13 @@ export default {
     cancelFun_revise() {
       this.$emit('cancelFun_revise',false)
     }
+  },
+  created(){
+    mitt.on("reviseAccount",(data)=>{
+      console.log("******");
+      console.log(data);
+      this.data = data ; 
+    })
   },
 };
 </script>

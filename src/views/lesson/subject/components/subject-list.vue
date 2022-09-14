@@ -59,10 +59,11 @@
               <a-button @click ="reviseList(row)" v-permission="['admin']" type="text" size="small">
                 {{ $t('编辑') }}
               </a-button>
-              <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
-                {{ $t('删除') }}
-              </a-button>
-              
+              <a-popconfirm  @ok="delList(row)" content="Are you sure you want to delete?" type="error">
+                  <a-button  v-permission="['admin']" type="text" size="small">
+                    {{ $t('删除') }}
+                  </a-button>
+            </a-popconfirm>
             </template>
           </a-table-column>
         </template>
@@ -177,18 +178,13 @@ export default {
       //row
       // console.log(row.record.id);
       // console.log(row.record.name);
-      const num = ref(1);
+    
       this.visible_revise = true;
-      mitt.on('add', e => {
-        num.value= row.record.id;
-      })
-      console.log(num.value);
-      console.log(row.record.id);
+      mitt.emit('reviseAccount',row)
 
+      // this.row_ = row.record.id;
 
-      this.row_ = row.record.id;
-
-      console.log(this.row_);
+      // console.log(this.row_);
       }
       
     

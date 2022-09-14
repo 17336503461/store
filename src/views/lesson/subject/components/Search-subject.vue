@@ -5,7 +5,7 @@
     <a-form :model="form" @submit="handleSubmit">
       <a-form-item class="section-tit" field="grade" >
         <a-select v-model="form.grade" placeholder="下拉菜单">
-          <a-option value="vue">vue</a-option>
+          <a-option value="vue" @click="handle_vue">vue</a-option>
           <a-option value="react">react</a-option>
           <a-option value="webpack">webpack</a-option>
         </a-select>
