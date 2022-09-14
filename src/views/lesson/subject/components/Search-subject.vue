@@ -45,6 +45,7 @@ export default {
       selectTitle:"",
       name:"",
       tableData:[],
+      classList1:[],
     }
   },
   methods:{
@@ -59,7 +60,7 @@ export default {
       }).then((res) => { 
         console.log(res);
         console.log(res.data.list);
-        this.classList = res.data.list
+        this.classList1 = res.data.list
       }).catch((err)=>{
         console.log(err);
       })
@@ -82,26 +83,33 @@ export default {
     handleSubmit(){
       this.clear();
       
-      console.log("1");
+      // console.log("1");
       let _name = this.name ;
 
       console.log(_name);
 
       // console.log(this.selectTitle);
       let _selectTitle = this.selectTitle ; 
-      this.classList.forEach((val)=>{
+      this.classList1.forEach((val)=>{
        
         if(val.title==_selectTitle){
-          console.log(val);
+          // console.log(val);
           this.tableData.push(val); 
         }
       });
-      console.log(this.tableData);
+      // console.log(this.tableData);
       
-      this.classList = this.tableData ;
+      // this.classList = this.tableData ;
 
-      console.log(this.classList);  
+      // console.log(this.classList);  
 
+      this.classList1.forEach((val)=>{
+        console.log(val);
+       if(val.name==_name){
+         console.log(val);
+         this.tableData.push(val); 
+       }
+     });
       mitt.emit('handleSubmit',this.tableData)
     },
     
