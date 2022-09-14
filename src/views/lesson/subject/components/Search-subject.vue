@@ -37,17 +37,21 @@ import { reactive } from 'vue';
 import {getTechonology} from '../../../../api/TechonologyManage.js'
 import {findAccount} from '../../../../api/AccountManagement.JS'
 import {getAccount} from '../../../../api/AccountManagement.JS'
+import mitt from '@/utils/mitt.js';
 export default {
   data(){
     return{
       arrList:[],
       selectTitle:"",
-      classList:[],
       name:"",
       tableData:[],
     }
   },
   methods:{
+    //清空
+    clear(){
+      this.tableData = [];
+    } ,
     //获取全部列表
     getAccountList () {
       getAccount({
@@ -76,12 +80,14 @@ export default {
     },
     // 搜索 
     handleSubmit(){
+      this.clear();
+      
       console.log("1");
       let _name = this.name ;
 
       console.log(_name);
 
-      console.log(this.selectTitle);
+      // console.log(this.selectTitle);
       let _selectTitle = this.selectTitle ; 
       this.classList.forEach((val)=>{
        
@@ -91,7 +97,15 @@ export default {
         }
       });
       console.log(this.tableData);
-    }
+      
+      this.classList = this.tableData ;
+
+      console.log(this.classList);  
+
+      mitt.emit('handleSubmit',this.tableData)
+    },
+    
+    
   },
   created(){
     this.getAccountList();

@@ -185,12 +185,21 @@ export default {
       // this.row_ = row.record.id;
 
       // console.log(this.row_);
-      }
+    },
+    // // 获取new的列表select
+    //  getSelectList(){
+      
+    //  },
       
     
   },
   created() {
     this.getAccountList();
+    mitt.on("handleSubmit",(data)=>{
+      console.log("******");
+      console.log(data);
+      this.classList = data ; 
+    })
   }
 }
 </script>
