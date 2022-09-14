@@ -3,32 +3,37 @@
   <div class="class-main">
     <br>
     <a-form :model="form" @submit="handleSubmit">
-      <a-form-item class="section-tit" field="grade" >
-        <a-select v-model="form.grade" placeholder="下拉菜单">
-          <a-option value="vue">vue</a-option>
-          <a-option value="react">react</a-option>
-          <a-option value="webpack">webpack</a-option>
-        </a-select>
+      <a-row :gutter="8">
+        <a-col :span="12">
+          <a-select style="width: 200px;"  v-model="form.seriesId" placeholder="下拉菜单">
+            <a-option value="vue">vue</a-option>
+            <a-option value="react">react</a-option>
+            <a-option value="webpack">webpack</a-option>
+          </a-select>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item no-style>
+            <a-input  v-model="form.subjectName"  placeholder="please enter your lastname..." />
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-form-item>
+        <a-button html-type="submit">Submit</a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
-<script  lang="ts">
+<script>
 import { reactive } from 'vue';
 
 export default {
   setup() {
       const form = reactive({
-          grade:'',
-          course:'',
-          subject:'',
-          time:'',
-          radio:'循环',
-          week:'',
-          lecturer:''
+        seriesId:'',
+        subjectName:''
       });
-      const handleSubmit = (data: any) => {
-          console.log(data)
+      const handleSubmit = (data) => {
+          console.log("=========", data, form)
       };
       return {
           form,
@@ -38,7 +43,9 @@ export default {
 }
 </script>
 <style scoped lang="less">
-
+.section-tit{
+  width: 300px;
+}
 .container {
   padding: 0 20px 40px 20px;
   background-color: var(--color-bg-2);
