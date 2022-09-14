@@ -122,12 +122,11 @@ export default {
   methods:{ 
     //获取科目列表
     getAccountList () {
-      getAccount().then((res) => {
-        res.data.pageSize = 100 ;
-        res.data.pageNum = 1; 
+      getAccount({
+        pageSize : 10000
+      }).then((res) => { 
         console.log(res);
         console.log(res.data.list);
-        
         this.classList = res.data.list
       }).catch((err)=>{
         console.log(err);
