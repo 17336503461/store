@@ -74,9 +74,13 @@
         />
       </div>
       <a-button type="primary" class="download_model">
-        <a href="/addStudentList.xlsx" download="addStudentList.xlsx" style="text-decoration: none;">下载模板</a>
+        <a
+          href="/addStudentList.xlsx"
+          download="addStudentList.xlsx"
+          style="text-decoration: none"
+          >下载模板</a
+        >
       </a-button>
-     
 
       <a-table
         class="student_from"
@@ -217,6 +221,8 @@
 </template>
 
 <script>
+  // eslint-disable-next-line import/no-unresolved
+  import qs from 'qs';
   import * as XLSX from 'xlsx';
   import {
     getStudentAPI,
@@ -268,10 +274,8 @@
     methods: {
       async acquireStudentList() {
         const res = await getStudentAPI(
-          { pageNum: 1, pageSize: 3 },
-          {
-            'content-type': 'application/json',
-          }
+          qs.stringify({ pageNum: 1, pageSize: 100 }),
+          {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
         );
         this.studentList = [...res.data.data.list];
       },
@@ -315,7 +319,7 @@
       },
       // 删除按钮
       async delStudentList(row) {
-        const res = await deleteStudentAPI(row.rowIndex);
+        const res = await deleteStudentAPI(row.record.id);
         if (res.data.code !== 200) {
           this.$message.error('删除失败！');
         } else {
@@ -326,16 +330,17 @@
       // 查询操作
       async searchStudentFun(data) {
         const res = await getStudentAPI(
-          {
+          qs.stringify({
             pageNum: 1,
             pageSize: 3,
             realname: data.realname,
             enrollmentTimeShool: data.enrollmentTimeShool,
             mobile: data.mobile,
-            groupId: data.mobile,
-          },
-          { 'content-type': 'application/json' }
+            groupId: data.groupId,
+          }),
+          {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
         );
+      
         // 搜索成功，清空表单
         if (res.data.code === 200) {
           this.resetFrom();
@@ -365,7 +370,8 @@
           });
           const workSheet = workBook.Sheets[workBook.SheetNames[0]];
           const data = XLSX.utils.sheet_to_json(workSheet);
-          console.log(data);
+          const res = addStudentAPI(data)
+          this.acquireStudentList()
         });
       },
       readFile(file) {

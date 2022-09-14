@@ -28,19 +28,11 @@ export const updateStudentAPI = (data,header) => {
   })
 }
 // 创建学员
-export const addStudentAPI = ({ id,realname,mobile,professional,studentclass,num,enrollmentTimeShool}) => {
+export const addStudentAPI = (data) => {
   return request({
     url: '/Student/addList',
     method: 'POST',
-    data:{
-      id,
-      realname,
-      mobile,
-      professional,
-      studentclass,
-      num,
-      enrollmentTimeShool
-    },
+    data
     // data的格式
     // id: '83',
     // realname:'戴龙邦',
