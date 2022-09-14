@@ -10,13 +10,13 @@
         <span class="linemarginleft linemarginright">技术栈：</span>
         <SearchSubject></SearchSubject>
         <!-- 搜索按钮 -->
-        <a-button
+        <!-- <a-button
           class="searchbutton"
           type="primary"
           size="small"
           @click="searchClassFun"
           >搜索</a-button
-        >
+        > -->
         </a-space>
 
     </div>
@@ -37,17 +37,15 @@
         <template #columns>
           <a-table-column 
             :title="$t('ID')"
-            prop="id"
             data-index="id"
           />
           <a-table-column
             :title="$t('科目名')"
-            prop="name"
-            data-index="title"
+            data-index="name"
           />
           <a-table-column
             :title="$t('技术栈')"
-            data-index="teacherId"
+            data-index="title"
           />
           <a-table-column
             :title="$t('创建时间')"
@@ -61,10 +59,11 @@
               <a-button @click ="reviseList(row)" v-permission="['admin']" type="text" size="small">
                 {{ $t('编辑') }}
               </a-button>
-              <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
-                {{ $t('删除') }}
-              </a-button>
-              
+              <a-popconfirm  @ok="delList(row)" content="Are you sure you want to delete?" type="error">
+                  <a-button  v-permission="['admin']" type="text" size="small">
+                    {{ $t('删除') }}
+                  </a-button>
+            </a-popconfirm>
             </template>
           </a-table-column>
         </template>
@@ -85,6 +84,7 @@
         <ReviseClass
           @confirmFun_revise="confirmFun_revise"
           @cancelFun_revise="cancelFun_revise"
+          v-bind:row_ = "row_"
           >
         </ReviseClass>
       </div>
@@ -97,10 +97,13 @@
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
+import {ref} from 'vue'
 import {getAccount} from '../../../../api/AccountManagement.JS'
 import {deleteAccount} from '../../../../api/AccountManagement.JS' 
 import {reviseAccount} from '../../../../api/AccountManagement.JS' 
 import ReviseClass from './revise-subject.vue'
+import mitt from '@/utils/mitt.js';
+
 export default {
   components:{
     SearchSubject,
@@ -119,12 +122,19 @@ export default {
       // 创建班级弹窗是否可见
       visible: false,
       visible_revise:false,
+
+      row_ : "1" ,
     };
   },
   methods:{ 
+    
     //获取科目列表
+    
     getAccountList () {
-      getAccount().then((res) => {
+      getAccount({
+        pageSize : 10000
+      }).then((res) => { 
+        console.log(res);
         console.log(res.data.list);
         this.classList = res.data.list
       }).catch((err)=>{
@@ -164,14 +174,19 @@ export default {
     cancelFun_revise(){
       this.visible_revise =false 
     },
-    reviseList() {
+    reviseList(row) {
       //row
       // console.log(row.record.id);
       // console.log(row.record.name);
-      //等待更改
-      //缺少一个修改的弹窗 然后去 和add 一样
+    
       this.visible_revise = true;
-    }
+      mitt.emit('reviseAccount',row)
+
+      // this.row_ = row.record.id;
+
+      // console.log(this.row_);
+      }
+      
     
   },
   created() {
@@ -206,7 +221,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 250px;
+    height: 350px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;
