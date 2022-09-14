@@ -83,6 +83,7 @@
         <ReviseClass
           @confirmFun_revise="confirmFun_revise"
           @cancelFun_revise="cancelFun_revise"
+          v-bind:row_ = "row_"
           >
         </ReviseClass>
       </div>
@@ -95,10 +96,13 @@
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
+import {ref} from 'vue'
 import {getAccount} from '../../../../api/AccountManagement.JS'
 import {deleteAccount} from '../../../../api/AccountManagement.JS' 
 import {reviseAccount} from '../../../../api/AccountManagement.JS' 
 import ReviseClass from './revise-subject.vue'
+import mitt from '@/utils/mitt.js';
+
 export default {
   components:{
     SearchSubject,
@@ -117,10 +121,14 @@ export default {
       // 创建班级弹窗是否可见
       visible: false,
       visible_revise:false,
+
+      row_ : "1" ,
     };
   },
   methods:{ 
+    
     //获取科目列表
+    
     getAccountList () {
       getAccount({
         pageSize : 10000
@@ -165,14 +173,24 @@ export default {
     cancelFun_revise(){
       this.visible_revise =false 
     },
-    reviseList() {
+    reviseList(row) {
       //row
       // console.log(row.record.id);
       // console.log(row.record.name);
-      //等待更改
-      //缺少一个修改的弹窗 然后去 和add 一样
+      const num = ref(1);
       this.visible_revise = true;
-    }
+      mitt.on('add', e => {
+        num.value= row.record.id;
+      })
+      console.log(num.value);
+      console.log(row.record.id);
+
+
+      this.row_ = row.record.id;
+
+      console.log(this.row_);
+      }
+      
     
   },
   created() {
