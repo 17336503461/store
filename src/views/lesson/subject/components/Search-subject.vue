@@ -4,7 +4,9 @@
     <a-form :model="form" @submit="handleSubmit">
       <a-row :gutter="8">
         <a-col :span="12">
+          <!--  双向绑定 v-model  -->
           <a-select
+          v-model="selectTitle"
           style="width: 200px;"  
           @click="getDown_List"
            placeholder="下拉菜单"
@@ -12,7 +14,7 @@
               <a-option 
               v-for="items in arrList" 
               :key ="items.title"
-              value="items.title"
+              :value="items.title"
               >
               {{items.title}}
             </a-option>
@@ -20,7 +22,7 @@
         </a-col>
         <a-col :span="12">
           <a-form-item no-style>
-            <a-input   placeholder="please enter your name..." />
+            <a-input v-model = "name"  placeholder="please enter your name..." />
           </a-form-item>
         </a-col>
         <a-form-item>
@@ -33,13 +35,31 @@
 <script>
 import { reactive } from 'vue';
 import {getTechonology} from '../../../../api/TechonologyManage.js'
+import {findAccount} from '../../../../api/AccountManagement.JS'
+import {getAccount} from '../../../../api/AccountManagement.JS'
 export default {
   data(){
     return{
       arrList:[],
+      selectTitle:"",
+      classList:[],
+      name:"",
+      tableData:[],
     }
   },
   methods:{
+    //获取全部列表
+    getAccountList () {
+      getAccount({
+        pageSize : 10000
+      }).then((res) => { 
+        console.log(res);
+        console.log(res.data.list);
+        this.classList = res.data.list
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },
     //获取下拉列表
     getDown_List() {
       getTechonology().then((res)=>{
@@ -48,9 +68,33 @@ export default {
         //  console.log(this.arrList);
       })
     },
+    // 选中列表
+    getSelect_List(){
+      findAccount().then((res)=>{
+
+      })
+    },
+    // 搜索 
+    handleSubmit(){
+      console.log("1");
+      let _name = this.name ;
+
+      console.log(_name);
+
+      console.log(this.selectTitle);
+      let _selectTitle = this.selectTitle ; 
+      this.classList.forEach((val)=>{
+       
+        if(val.title==_selectTitle){
+          console.log(val);
+          this.tableData.push(val); 
+        }
+      });
+      console.log(this.tableData);
+    }
   },
   created(){
-    
+    this.getAccountList();
   },
 }
 </script>

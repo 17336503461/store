@@ -38,3 +38,11 @@ export function reviseAccount (params) {
     params,
   })
 }
+//查找科目
+export function findAccount (params) {
+  return request ({ 
+    url :"LessonSubject/select",
+    method:"post",
+    params,
+  })
+}
