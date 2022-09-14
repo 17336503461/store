@@ -10,13 +10,13 @@
         <span class="linemarginleft linemarginright">技术栈：</span>
         <SearchSubject></SearchSubject>
         <!-- 搜索按钮 -->
-        <a-button
+        <!-- <a-button
           class="searchbutton"
           type="primary"
           size="small"
           @click="searchClassFun"
           >搜索</a-button
-        >
+        > -->
         </a-space>
 
     </div>

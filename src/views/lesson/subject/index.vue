@@ -2,7 +2,6 @@
     <div class="container">
         <Breadcrumb :items="['课件模块', '科目管理']" />
         <SubjectList></SubjectList>
-
     </div>
 </template>
 <script >

@@ -3,14 +3,7 @@
   <div class="class-main">
     <br>
     <a-form :model="form" @submit="handleSubmit">
-<<<<<<< HEAD
-      <a-form-item class="section-tit" field="grade" >
-        <a-select v-model="form.grade" placeholder="下拉菜单">
-          <a-option value="vue" @click="handle_vue">vue</a-option>
-          <a-option value="react">react</a-option>
-          <a-option value="webpack">webpack</a-option>
-        </a-select>
-=======
+      
       <a-row :gutter="8">
         <a-col :span="12">
           <a-select style="width: 200px;"  v-model="form.seriesId" placeholder="下拉菜单">
@@ -21,15 +14,16 @@
         </a-col>
         <a-col :span="12">
           <a-form-item no-style>
-            <a-input  v-model="form.subjectName"  placeholder="please enter your lastname..." />
+            <a-input  v-model="form.subjectName"  placeholder="please enter your name..." />
           </a-form-item>
         </a-col>
+        <a-form-item>
+          <a-button html-type="submit">搜索</a-button>
+        </a-form-item>
       </a-row>
-      <a-form-item>
-        <a-button html-type="submit">Submit</a-button>
->>>>>>> e013d7d5ae8cdf7d9765780ac27387bdf7ab6094
-      </a-form-item>
+      
     </a-form>
+
   </div>
 </template>
 <script>
