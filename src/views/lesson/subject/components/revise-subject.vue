@@ -10,10 +10,10 @@
           style="width: 400px"
         />
       </a-form-item>
-      <a-form-item field="seriesId" label="科目 id : " >
+      <a-form-item field="seriesId" label="seriesId:" >
         <a-input
           v-model="form.seriesId"
-          placeholder="请输入科目id"
+          placeholder="请输入seriesId"
           style="width: 400px"
         />
       </a-form-item>

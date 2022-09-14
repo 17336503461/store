@@ -17,6 +17,20 @@
           style="width: 400px"
         />
       </a-form-item>
+      <a-form-item field="technology" label="技术栈: " >
+        <a-input
+          v-model="form.technology"
+          placeholder="请输入技术栈"
+          style="width: 400px"
+        />
+      </a-form-item>
+      <a-form-item field="time" label="创建时间: " >
+        <a-input
+          v-model="form.time"
+          placeholder="请输入创建时间"
+          style="width: 400px"
+        />
+      </a-form-item>
       <div class="btn">
       <a-button type="dashed" class="cancel" @click="cancelFun">取消</a-button>
       <a-button type="primary" class="confirm" @click="confirmFun">创建</a-button>
@@ -41,6 +55,8 @@ export default {
       form: {
         classname: '',
          seriesId:'' ,
+         technology:"",
+         time:"",
       },
     };
   },
@@ -60,17 +76,23 @@ export default {
     },
     // 创建事件
     confirmFun(form) {
-      // this.form.teacher = this.teacherlist[this.keyteacher]
-      // this.$emit('confirmfun',this.form)
-      console.log(this.form.classname,this.form.seriesId);
+      console.log(this.form.classname,this.form.seriesId , this.form.technology);
       //添加科目
       addAccount({
         name:this.form.classname,
         seriesId:this.form.seriesId,
+        title:this.form.technology,
+        createAt:this.form.time,
       }).then((res)=>{
         alert("添加成功!");
         // getAccountList(); 写不出来 组件组件 调用函数 
         this.gotoa();
+      }).catch((err)=>{
+        alert("格式错误");
+        this.form.classname= "" ;
+        this.form.seriesId =  "" ;
+        this.form.technology=  "" ;
+        this.form.time=  "" ;
       })
       console.log('1');
       // 关闭窗口

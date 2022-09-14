@@ -37,17 +37,15 @@
         <template #columns>
           <a-table-column 
             :title="$t('ID')"
-            prop="id"
             data-index="id"
           />
           <a-table-column
             :title="$t('科目名')"
-            prop="name"
-            data-index="title"
+            data-index="name"
           />
           <a-table-column
             :title="$t('技术栈')"
-            data-index="teacherId"
+            data-index="title"
           />
           <a-table-column
             :title="$t('创建时间')"
@@ -125,7 +123,11 @@ export default {
     //获取科目列表
     getAccountList () {
       getAccount().then((res) => {
+        res.data.pageSize = 100 ;
+        res.data.pageNum = 1; 
+        console.log(res);
         console.log(res.data.list);
+        
         this.classList = res.data.list
       }).catch((err)=>{
         console.log(err);
@@ -206,7 +208,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 250px;
+    height: 350px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;

@@ -15,10 +15,11 @@ export function addAccount(data) {
   })
 }
 // 获取科目列表
-export function getAccount() {
+export function getAccount(data) {
   return request ({
     url : 'LessonSubject/getList',
     method :'get' ,
+    data,
   })
 }
 //删除科目 
