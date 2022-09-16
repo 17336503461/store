@@ -5,7 +5,7 @@ import {
   getUserInfo,
   LoginData,
 } from '@/api/user';
-import {loginByUserNameVerify} from '@/api/auth.js';
+import {loginByUserNameVerify, getUserInfobyUsername} from '@/api/auth.js';
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
 import { UserState } from './types';
@@ -56,7 +56,7 @@ const useUserStore = defineStore('user', {
 
     // Get user's information
     async info() {
-      const res = await getUserInfo();
+      const res = await getUserInfobyUsername();
 
       this.setInfo(res.data);
     },

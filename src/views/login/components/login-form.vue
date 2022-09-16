@@ -43,13 +43,13 @@
         </a-input-password>
       </a-form-item>
       <a-form-item
-        field="identifyingCode"
+        field="code"
         :rules="[{ required: true, message: $t('验证码不能为空') }]"
         :validate-trigger="['change', 'blur']"
         hide-label
       >
         <a-input
-          v-model="userInfo.identifyingCode"
+          v-model="userInfo.code"
           :placeholder="$t('验证码')"
           class="identifyingCode"
         >
@@ -59,7 +59,7 @@
           </template>
         </a-input>
         <div class="identifyingCode-img">
-          <img src="../images/identifyingCode.jpg" alt="">
+          <img @click="clickAuthCodeImage" :src="authCodeUrl" alt="">
         </div>
       </a-form-item
       >
@@ -92,7 +92,10 @@
   import { useUserStore } from '@/store';
   import useLoading from '@/hooks/loading';
   import type { LoginData } from '@/api/user';
-
+  const authCodeUrl = ref(import.meta.env.VITE_API_BASE_URL + 'Verify/user/getVerify');
+  const clickAuthCodeImage = () =>{
+    authCodeUrl.value = import.meta.env.VITE_API_BASE_URL + 'Verify/user/getVerify?' + Date.now() 
+  }
   const router = useRouter();
   const { t } = useI18n();
   const errorMessage = ref('');
@@ -107,6 +110,8 @@
   const userInfo = reactive({
     username: loginConfig.value.username,
     password: loginConfig.value.password,
+    code:"",
+    rememberme:0
   });
 
   const handleSubmit = async ({

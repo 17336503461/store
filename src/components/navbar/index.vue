@@ -144,7 +144,7 @@
             :size="32"
             :style="{ marginRight: '8px', cursor: 'pointer' }"
           >
-            <img alt="avatar" :src="avatar" />
+            <img alt="avatar" :src="avatar || 'https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/baike/s%3D290/sign=447233afb07eca8016053eeea1229712/8d5494eef01f3a29db9640429925bc315d607ce4.jpg' " />
           </a-avatar>
           <template #content>
             <a-doption>
