@@ -52,7 +52,7 @@ export default {
     getAccountList () {
       getAccount().then((res) => {
         console.log(res.data.data);
-        this.classList = res.data.data
+        this.classList = res.data.data.list
       }).catch((err)=>{
         console.log(err);
       })

@@ -136,7 +136,7 @@ export default {
       }).then((res) => { 
         console.log(res);
         console.log(res.data.list);
-        this.classList = res.data.list
+        this.classList = res.data.data.list
       }).catch((err)=>{
         console.log(err);
       })
