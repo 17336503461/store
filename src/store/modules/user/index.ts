@@ -58,8 +58,8 @@ const useUserStore = defineStore('user', {
     // Get user's information
     async info() {
       const res = await getUserInfobyUsername();
-
-      this.setInfo(res.data);
+      res.data.data.role = 'admin'
+      this.setInfo(res.data.data);
     },
 
     // Login
