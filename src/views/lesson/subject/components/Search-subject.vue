@@ -60,7 +60,7 @@ export default {
       }).then((res) => { 
         console.log(res);
         console.log(res.data.list);
-        this.classList1 = res.data.list
+        this.classList1 = res.data.data.list
       }).catch((err)=>{
         console.log(err);
       })
