@@ -17,3 +17,10 @@ export function getUserInfobyUsername() {
     headers:{"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
   })
 }
+
+export function userLogout() {
+  return request({
+    url :'/users/logoutByUsername' ,
+    method: 'post'
+  })
+}
