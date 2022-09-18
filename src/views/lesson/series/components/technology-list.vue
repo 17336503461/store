@@ -40,10 +40,11 @@
               >
                 编辑
               </a-button>
-              <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
+              <a-popconfirm  @ok="delList(row)" content="Are you sure you want to delete?" type="error">
+              <a-button v-permission="['admin']" type="text" size="small">
                 删除
               </a-button>
-
+            </a-popconfirm>
               <a-modal v-model:delvisible="delvisible" @cancel="handleCancel" >
               <template #title>
                 Title
