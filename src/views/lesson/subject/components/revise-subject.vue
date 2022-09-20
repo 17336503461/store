@@ -10,30 +10,16 @@
           style="width: 400px"
         />
       </a-form-item>
-      <a-form-item field="seriesId" label="科目 id : " >
+      <a-form-item field="seriesId" label="seriesId:" >
         <a-input
           v-model="form.seriesId"
-          placeholder="请输入科目id"
-          style="width: 400px"
-        />
-      </a-form-item>
-      <a-form-item field="technology" label="技术栈: " >
-        <a-input
-          v-model="form.technology"
-          placeholder="请输入技术栈"
-          style="width: 400px"
-        />
-      </a-form-item>
-      <a-form-item field="time" label="创建时间: " >
-        <a-input
-          v-model="form.time"
-          placeholder="请输入创建时间"
+          placeholder="请输入seriesId"
           style="width: 400px"
         />
       </a-form-item>
       <div class="btn">
-      <a-button type="dashed" class="cancel" @click="cancelFun">取消</a-button>
-      <a-button type="primary" class="confirm" @click="confirmFun">创建</a-button>
+      <a-button type="dashed" class="cancel" @click="cancelFun_revise">取消</a-button>
+      <a-button type="primary" class="confirm" @click="confirmFun_revise()">修改</a-button>
       </div> 
     </a-form>
     <a-divider :style="{ color: '#000' }" />
@@ -44,10 +30,11 @@
 
 import {addAccount} from '../../../../api/AccountManagement.JS'
 import {getAccount} from '../../../../api/AccountManagement.JS'
+import {reviseAccount} from '../../../../api/AccountManagement.JS'
+import mitt from '@/utils/mitt.js';
+
 export default {
-  props:{
-    teacherlist:{type:Array}
-  },
+  props:["row_"],
   data() {
     return {
       // classname:[],
@@ -55,9 +42,9 @@ export default {
       form: {
         classname: '',
          seriesId:'' ,
-         technology:"",
-         time:"",
+
       },
+      data :"" , 
     };
   },
   methods: {
@@ -65,7 +52,7 @@ export default {
     getAccountList () {
       getAccount().then((res) => {
         console.log(res.data.data);
-        this.classList = res.data.data
+        this.classList = res.data.data.list
       }).catch((err)=>{
         console.log(err);
       })
@@ -74,34 +61,37 @@ export default {
     gotoa() {
       this.$router.go(0)
     },
-    // 创建事件
-    confirmFun(form) {
-      console.log(this.form.classname,this.form.seriesId , this.form.technology);
-      //添加科目
-      addAccount({
+
+    // 修改科目
+    confirmFun_revise(form) {
+      console.log(this.form.classname,this.form.seriesId);
+      console.log(this.data.record.id);
+      //修改科目
+      reviseAccount({
+        subjectId: this.data.record.id, // 要修改的id
         name:this.form.classname,
-        seriesId:this.form.seriesId,
-        title:this.form.technology,
-        createAt:this.form.time,
+        seriesId:this.form.seriesId, // 改成什么id
+        updateUid :"1",
       }).then((res)=>{
-        alert("添加成功!");
+        alert("修改成功!");
         // getAccountList(); 写不出来 组件组件 调用函数 
         this.gotoa();
-      }).catch((err)=>{
-        alert("格式错误");
-        this.form.classname= "" ;
-        this.form.seriesId =  "" ;
-        this.form.technology=  "" ;
-        this.form.time=  "" ;
       })
       console.log('1');
       // 关闭窗口
-      this.$emit('cancelfun',false)
+      this.$emit('cancelFun_revise',false)
     },
-    // 取消创建事件
-    cancelFun() {
-      this.$emit('cancelfun',false)
+    // 取消事件
+    cancelFun_revise() {
+      this.$emit('cancelFun_revise',false)
     }
+  },
+  created(){
+    mitt.on("reviseAccount",(data)=>{
+      console.log("******");
+      console.log(data);
+      this.data = data ; 
+    })
   },
 };
 </script>

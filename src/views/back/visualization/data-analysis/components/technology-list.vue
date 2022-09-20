@@ -41,7 +41,7 @@
                 {{ $t('删除') }}
               </a-button>
 
-              <a-modal v-model:visible="visible" @cancel="handleCancel" :on-before-ok="handleBeforeOk" unmountOnClose>
+              <a-modal v-model:visible="visible" @cancel="handleCancel" unmountOnClose>
               <template #title>
                 Title
               </template>
@@ -83,7 +83,7 @@
     current: 1,
     pageSize: 20,
   };
-  
+  const handleCancel = () =>{}
   function delList (row) { 
     console.log(row.record.number);  
  

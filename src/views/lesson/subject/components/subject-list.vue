@@ -10,13 +10,13 @@
         <span class="linemarginleft linemarginright">技术栈：</span>
         <SearchSubject></SearchSubject>
         <!-- 搜索按钮 -->
-        <a-button
+        <!-- <a-button
           class="searchbutton"
           type="primary"
           size="small"
           @click="searchClassFun"
           >搜索</a-button
-        >
+        > -->
         </a-space>
 
     </div>
@@ -33,10 +33,9 @@
         :pagination="pagination"
         :data="classList"
         :bordered="false"
-        @page-change="onPageChange"
       >
         <template #columns>
-          <a-table-column
+          <a-table-column 
             :title="$t('ID')"
             data-index="id"
           />
@@ -46,42 +45,50 @@
           />
           <a-table-column
             :title="$t('技术栈')"
-            data-index="technology"
+            data-index="title"
           />
           <a-table-column
             :title="$t('创建时间')"
-            data-index="createdTime"
+            data-index="createAt"
           />
           <a-table-column
             :title="$t('操作')"
             data-index="operations"
           >
             <template #cell="row">
-              <a-button v-permission="['admin']" type="text" size="small">
+              <a-button @click ="reviseList(row)" v-permission="['admin']" type="text" size="small">
                 {{ $t('编辑') }}
               </a-button>
-              <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
-                {{ $t('删除') }}
-              </a-button>
+              <a-popconfirm  @ok="delList(row)" content="Are you sure you want to delete?" type="error">
+                  <a-button  v-permission="['admin']" type="text" size="small">
+                    {{ $t('删除') }}
+                  </a-button>
+            </a-popconfirm>
             </template>
           </a-table-column>
         </template>
       </a-table>
       </div>
-      
     </div>
-    <!-- <div v-show="visible" class="mask">
+    <div v-show="visible" class="mask">
       <div class="addClassIpt">
         <AddClass
-          :teacherlist="teacherList"
+       
           @confirmfun="confirmfun"
           @cancelfun="cancelfun"
         ></AddClass>
       </div>
-    </div> -->
-
-    <!-- 加入三个操作方法按钮(错误) -->
-        
+    </div>
+    <div v-show="visible_revise" class="mask">
+      <div class="addClassIpt">
+        <ReviseClass
+          @confirmFun_revise="confirmFun_revise"
+          @cancelFun_revise="cancelFun_revise"
+          v-bind:row_ = "row_"
+          >
+        </ReviseClass>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,78 +97,109 @@
 import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
 import SearchSubject from  "./Search-subject.vue"
 import AddClass from  './add-class.vue'
+import {ref} from 'vue'
+import {getAccount} from '../../../../api/AccountManagement.JS'
+import {deleteAccount} from '../../../../api/AccountManagement.JS' 
+import {reviseAccount} from '../../../../api/AccountManagement.JS' 
+import ReviseClass from './revise-subject.vue'
+import mitt from '@/utils/mitt.js';
+
 export default {
   components:{
     SearchSubject,
     AddClass,
+    ReviseClass,
   },
   data() {
     return {
-      // 班级列表表头（注释掉width实现自适应）
-      columns: [
-        // {
-        //   title: 'ID',
-        //   dataIndex: 'id',
-        //   width: 70,
-        // },
-        // {
-        //   title: '科目名',
-        //   dataIndex: 'classname',
-        //   // width: 140
-        // },
-        // {
-        //   title: '技术栈',
-        //   dataIndex: 'studentnum',
-        //   // width: 140
-        // },
-        // {
-        //   title: '创建时间',
-        //   dataIndex: 'time',
-        //   // width: 140
-        // },
-        // {
-        //   title: '操作',
-        //   dataIndex: 'employment',
-        //   // width: 140
-        // },
-      ],
-      // 班级列表数据(classList为展示数据)
-      allClassList: [],
-      classList: [{
-        id : 82,
-        name: "Vue" ,
-        technology:"Web开发前端",
-        createdTime :"2022-03-07 10:24",
-      },{
-        id : 21,
-        name: "HTML/JavaScript" ,
-        technology:"Web开发前端",
-        createdTime :"2021-08-08 18:07",
-      },{
-        id : 37,
-        name: "Linux/MQ" ,
-        technology:"WEB开发后端",
-        createdTime :"2021-06-12 22:28",
-      }],
+      classList: [],
       // 创建新班级数据
       newClassInfo: {},
-      // 下拉框（班主任）数据
-      teacherList: [],
-      // 搜索关键字和下拉关键词
-      keyword: '',
-      keyteacher: '',
       // 班级列表分页
       pagination: {
-        pageSize: 5,
+        pageSize: 25,
       },
       // 创建班级弹窗是否可见
       visible: false,
+      visible_revise:false,
+
+      row_ : "1" ,
     };
   },
-  methods:{
+  methods:{ 
+    
+    //获取科目列表
+    
+    getAccountList () {
+      getAccount({
+        pageSize : 10000
+      }).then((res) => { 
+        console.log(res);
+        console.log(res.data.list);
+        this.classList = res.data.data.list
+      }).catch((err)=>{
+        console.log(err);
+      })
+    },
+    cancelfun() {
+        this.visible =false 
+    },
     addClassFun() {
       this.visible = true;
     },
+    async confirmfun(formdata){
+      // proxy转换成普通对象
+      // const res = JSON.parse(JSON.stringify(formdata))
+      // console.log(res);
+      // await addClassAPI(res)
+      // this.initialization()
+      console.log(formdata);
+      this.visible = false
+      console.log(this.visible);
+    },
+    // 删除科目 
+    delList(row) {
+      console.log(row.record.id);
+      console.log(typeof(row.record.id));
+      console.log(typeof(deleteAccount));
+      deleteAccount({
+        subjectId : row.record.id
+      }).then((res)=>{
+        alert("删除成功!") ;
+        // 更新列表
+        this.getAccountList();
+      })
+    },
+    //修改科目
+    cancelFun_revise(){
+      this.visible_revise =false 
+    },
+    reviseList(row) {
+      //row
+      // console.log(row.record.id);
+      // console.log(row.record.name);
+    
+      this.visible_revise = true;
+      mitt.emit('reviseAccount',row)
+
+      // this.row_ = row.record.id;
+
+      // console.log(this.row_);
+    },
+    // // 获取new的列表select
+    //  getSelectList(){
+      
+    //  },
+      
+    
+  },
+  created() {
+    this.getAccountList();
+    mitt.on("handleSubmit",(data)=>{
+      console.log("******");
+      console.log(data);
+      this.classList = data ; 
+    })
   }
 }
 </script>
@@ -192,7 +230,7 @@ export default {
   z-index: 1000;
   .addClassIpt {
     width: 700px;
-    height: 450px;
+    height: 350px;
     background-color: rgb(255, 255, 255);
     margin: auto;
     margin-top: 120px;

@@ -4,11 +4,13 @@
         <SubjectList></SubjectList>
     </div>
 </template>
-<script>
+<script >
     import SubjectList from './components/subject-list.vue'
+    import { computed, ref, inject } from 'vue';
         export default {
             components :{
               SubjectList
+              
             }
         };
 </script>

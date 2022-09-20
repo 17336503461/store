@@ -2,7 +2,8 @@ import ajax from 'axios'
 import { getToken } from './token'
 
 const axios = ajax.create({
-  baseURL: ' http://localhost:1337'
+  //硬编码  打包的时候 会发生问题 
+  baseURL: import.meta.env.VITE_API_BASE_URL
 })
 
 // 添加请求拦截器
@@ -21,7 +22,12 @@ axios.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
-  return response
+  const { data } = response;
+  if ( data.code != 200 ) {
+    throw new Error( data.message || "请求数据状态异常!" );
+  } else {
+    return response
+  }
 }, function (error) {
   // 对响应错误做点什么
   // console.dir(error)

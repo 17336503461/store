@@ -3,7 +3,7 @@
       <br>
         <div>
           <a-space>
-            <a-button type="primary">新建技术栈</a-button>
+            <a-button type="primary" @click="addClassFun">新建技术栈</a-button>
           </a-space>
         </div>
          <br>
@@ -14,39 +14,42 @@
         :pagination="pagination"
         :data="renderData"
         :bordered="false"
-        @page-change="onPageChange"
+
       >
         <template #columns>
           <a-table-column
             :title="$t('ID')"
-            data-index="number"
+            data-index="id"
           />
           <a-table-column
             :title="$t('名称')"
-            data-index="name"
+            data-index="title"
           />
           <a-table-column
             :title="'创建时间'"
-            data-index="createdTime"
+            data-index="createAt"
           />
           <a-table-column
             :title="'操作'"
             data-index="operations"
           >
             <template #cell="row">
-              <a-button v-permission="['admin']" type="text" size="small">
+              <a-button v-permission="['admin']" type="text" size="small"
+              @click ="editTechonology(row)"
+              
+              >
                 编辑
               </a-button>
-              <a-button @click="delList(row)" v-permission="['admin']" type="text" size="small">
+              <a-popconfirm  @ok="delList(row)" content="Are you sure you want to delete?" type="error">
+              <a-button v-permission="['admin']" type="text" size="small">
                 删除
               </a-button>
-
-              <a-modal v-model:visible="visible" @cancel="handleCancel" :on-before-ok="handleBeforeOk" unmountOnClose>
+            </a-popconfirm>
+              <a-modal v-model:delvisible="delvisible" @cancel="handleCancel" >
               <template #title>
                 Title
               </template>
-              <div>You can cusstomize modal body text by the current situation. This modal will be closed immediately once you
-                press the OK button.
+              <div>是否删除
               </div>
             </a-modal>
 
@@ -55,99 +58,101 @@
         </template>
       </a-table>
     </div>
+    <div v-show="visible" class="mask">
+      <div class="addClassIpt">
+        <AddClass
+       
+          @confirmfun="confirmfun"
+          @cancelfun="cancelfun"
+        ></AddClass>
+      </div>
+    </div>
+    <div v-show="visible_revise" class="mask">
+      <div class="addClassIpt">
+        <ReviseClass
+          @confirmFun_revise="confirmFun_revise"
+          @cancelFun_revise="cancelFun_revise"
+          v-bind:row_ = "row_"
+          >
+        </ReviseClass>
+      </div>
+    </div>
 </template>
-<script lang="ts" setup>
-  import { computed, ref, reactive } from 'vue';
-  import { useI18n } from 'vue-i18n';
+<script>
   import useLoading from '@/hooks/loading';
-  import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
-  import { Pagination } from '@/types/global';
-  import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
-
-  
-  const generateFormModel = () => {
-    return {
-      number: '',
-      name: '',
-      contentType: '',
-      filterType: '',
-      createdTime: [],
-      status: '',
-    };
-  };
+  import {getTechonology ,delTechonology} from "@/api/TechonologyManage.js"
+  import AddClass from  './add-class.vue'
+  import ReviseClass from  './revise-subject.vue'
+  //loading板子
   const { loading, setLoading } = useLoading(true);
-  const { t } = useI18n();
-  const renderData = ref<PolicyRecord[]>([]);
-  const formModel = ref(generateFormModel());
-  const basePagination: Pagination = {
-    current: 1,
-    pageSize: 20,
-  };
-  
-  function delList (row) { 
-    console.log(row.record.number);  
- 
-  }
-  
-  const pagination = reactive({
-    ...basePagination,
-  });
-  const filterTypeOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: t('searchTable.form.filterType.artificial'),
-      value: 'artificial',
-    },
-    {
-      label: t('searchTable.form.filterType.rules'),
-      value: 'rules',
-    },
-  ]);
-  const statusOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: t('searchTable.form.status.online'),
-      value: 'online',
-    },
-    {
-      label: t('searchTable.form.status.offline'),
-      value: 'offline',
-    },
-  ]);
-  const fetchData = async (
-    params: PolicyParams = { current: 1, pageSize: 20 }
-  ) => {
-    setLoading(true);
-    try {
-      const { data } = await queryPolicyList(params);
-      renderData.value = data.list;
-      pagination.current = params.current;
-      pagination.total = data.total;
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(false);
 
-  const search = () => {
-    fetchData({
-      ...basePagination,
-      ...formModel.value,
-    } as unknown as PolicyParams);
-  };
-  const onPageChange = (current: number) => {
-    fetchData({ ...basePagination, current });
-  };
-
-  fetchData();
-  const reset = () => {
-    formModel.value = generateFormModel();
-  };
-</script>
-
-<script lang="ts">
   export default {
-    name: 'SearchTable',
+  components:{
+    AddClass,
+    ReviseClass,
+  },
+  data() {
+    return {
+      visible: false,
+      renderData: [],
+      visible_revise:false,
+      pagination: {
+        pageSize: 25,
+      },
+      row_ : "1",
+    };
+  },
+  methods:{ 
+    
+    //创建图层
+    addClassFun() {
+      this.visible = true;
+    },
+    cancelfun() {
+        this.visible =false 
+    },
+    //创建图层二 编辑
+    cancelFun_revise(){
+      this.visible_revise =false 
+    },
+    
+
+    handleCancel(){},
+
+   //获取技术栈列表
+    getTechonologyList() {
+      getTechonology().then((res)=>{
+        console.log(res.data.data);
+        console.log(this.renderData);
+        this.renderData=res.data.data
+      })
+    },
+    //删除事件
+    delList(row){
+      console.log(row.record.id);
+      delTechonology(row.record.id).then((res)=>{
+        console.log(res);
+        alert("删除成功！");
+        this.getTechonologyList();
+      })
+    },
+    //编辑技术栈
+    editTechonology(row) {
+      // console.log("1");
+      this.visible_revise = true;
+      // this.$emit("confirmFun_revise",row)
+      // row_ : row ;
+      // console.log(row.record.id);
+      this.row_ = row.record.id ;
+      console.log(this.row_);
+    }
+  },
+  created() {
+    this.getTechonologyList();
   }
+}
+  
 </script>
 
 <style scoped lang="less">
@@ -161,57 +166,23 @@
       }
     }
   }
-</style>
-
-<!-- <script>
-import { reactive } from 'vue';
-
-export default {
-  setup() {
-    const columns = [
-      {
-        title: 'ID',
-        dataIndex: 'id',
-      },
-      {
-        title: '名称',
-        dataIndex: 'name',
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'time',
-      },
-      {
-        title: '操作',
-        dataIndex: 'operate',
-      },
-
-    ];
-    const data = reactive([{
-      key: '1',
-      id: '84',
-      name:'WEB开发前端',
-      time: '2021-09-20 10:40',
-    }, {
-      key: '2',
-      id: '38',
-      name: 'WEB开发后端',
-      time: '2021-09-20 10:38',
-    }, {
-      key: '3',
-      id: '45',
-      name: '人工智能大数据',
-      time: '2021-09-20 10:37',
-    }, 
-    ]);
-
-    return {
-      columns,
-      data
-    }
-  },
+  .mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  .addClassIpt {
+    width: 700px;
+    height: 250px;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    margin-top: 120px;
+    padding-top: 10px;
+    padding-left: 10px;
+    border-radius: 20px;
+  }
 }
-</script>
-<style>
-.technology-table{}
-</style> -->
+</style>

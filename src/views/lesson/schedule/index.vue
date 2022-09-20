@@ -35,7 +35,7 @@ export default {
             color: var(--color-text-1);
         }
     
-        ::v-deep .arco-form-item-label-col>.arco-form-item-label {
+        ::v-deep(.arco-form-item-label-col>.arco-form-item-label) {
             font-size: 14px !important;
             color: var(--color-text-1);
         }
@@ -44,37 +44,37 @@ export default {
             padding-left: 38px;
         }
     
-        ::v-deep .arco-col-5 {
+        ::v-deep(.arco-col-5) {
             display: block;
             padding-left: 95px;
             flex: initial;
             width: auto;
         }
-         .choose ::v-deep .arco-col-19{
+         .choose ::v-deep(.arco-col-19){
             padding-left: 0;
         }
-         .choose ::v-deep .arco-col-5{
+         .choose ::v-deep(.arco-col-5){
             padding-left: 74px;
         }
         ::v-deep .arco-form-item-content {
             flex: initial;
             width: 120px;
         }
-         .choose ::v-deep .arco-form-item-content {
+         .choose ::v-deep(.arco-form-item-content) {
             flex: initial;
             width: auto;
         }
         
-        ::v-deep .arco-select-view-single {
+        ::v-deep(.arco-select-view-single) {
             background-color: var(--color-bg-1);
             border: 1px solid rgba(187, 187, 187, 100);
         }
     
-        ::v-deep .arco-select-view-single .arco-select-view-input::placeholder {
+        ::v-deep(.arco-select-view-single .arco-select-view-input::placeholder) {
             color: var(--color-text-1);
         }
     
-        ::v-deep .arco-form-item {
+        ::v-deep(.arco-form-item) {
             margin-bottom: 26px;
         }
     
@@ -84,11 +84,11 @@ export default {
             height: 29px;
         }
     
-        ::v-deep .arco-radio-group .arco-radio {
+        ::v-deep(.arco-radio-group .arco-radio) {
             margin-right: 94px;
         }
     
-        ::v-deep .arco-btn-size-medium {
+        ::v-deep(.arco-btn-size-medium) {
             height: 30px;
             padding: 0 25px;
             border: 1px solid rgba(187, 187, 187, 100);
@@ -97,7 +97,7 @@ export default {
             ;
         }
     
-        ::v-deep .form-sub .arco-form-item-content {
+        ::v-deep(.form-sub .arco-form-item-content) {
             padding-left: 98px;
         }
     

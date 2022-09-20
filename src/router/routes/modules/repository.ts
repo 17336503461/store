@@ -87,7 +87,7 @@ const REPOSITORY: AppRouteRecordRaw = {
       name: 'UnitSubmit',
       component: () => import('@/views/repository/unitSubmit/index.vue'),
       meta: {
-        locale: '单元提交',
+        locale: '单元提交',//名：单元提交
         requiresAuth: true,
         roles: ['*'],
       },

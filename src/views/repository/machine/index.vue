@@ -19,7 +19,7 @@
           :model-value="data.Diff"
           :count="4"
           readonly
-          color="black"
+          color="'black'"
           style="position: absolute; top: -5px; left: 460px; font-size: 24px"
         />
       </div>
