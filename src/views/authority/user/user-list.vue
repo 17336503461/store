@@ -21,7 +21,7 @@
     <div>
       <div class="addclassbtn">
         <!-- 创建班级按钮（跳转路由/创建蒙层） -->
-        <a-button type="primary" @click="addClassFun">创建科目</a-button>
+        <a-button type="primary" @click="addClassFun">录入用户</a-button>
         <a-button type="primary" @click="addClassFun" class="user-reset">重置</a-button>
         <a-button type="primary" @click="addClassFun" class="user-research">查询</a-button>
       </div>
@@ -35,19 +35,23 @@
       >
         <template #columns>
           <a-table-column 
-            :title="$t('ID')"
+            :title="$t('UID')"
             data-index="id"
           />
           <a-table-column
-            :title="$t('科目名')"
+            :title="$t('用户名')"
             data-index="name"
           />
           <a-table-column
-            :title="$t('技术栈')"
+            :title="$t('手机号')"
             data-index="title"
           />
           <a-table-column
-            :title="$t('创建时间')"
+            :title="$t('用户身份')"
+            data-index="createAt"
+          />
+          <a-table-column
+            :title="$t('教学科目')"
             data-index="createAt"
           />
           <a-table-column
@@ -93,22 +97,29 @@
 
 <script>
 import {getUserList} from '../../../api/userManage.js'
+import AddClass from './add-class.vue'
 export default {
   components:{
-    
+    AddClass,
   },
   data() {
     return {
-      
+      visible : false
     }
   },
   methods:{ 
+    addClassFun(){
+      this.visible = true
+    },
+    cancelfun() {
+        this.visible =false 
+    },
     handleUserList(){
 
     }
   },
   created() {
-    
+   
   }
 }
 
