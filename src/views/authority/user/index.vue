@@ -1,11 +1,17 @@
 <template>
-    <div class="container">
+    <div>
+        <div class="container">
         <Breadcrumb :items="['权限模块', '用户管理']" />
+        </div>
+        <userList></userList>
     </div>
-    </template>
+</template>
+
     <script  lang="ts">
+        import userList from './user-list.vue'
         export default {
             name: 'series',
+            components:{userList},
         };
     </script>
     <style scoped lang="less">
