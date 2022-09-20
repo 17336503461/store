@@ -13,3 +13,19 @@
     data,
   })
 }
+//删除
+export function deleteUser (params) {
+  return request ({ 
+    url :"auth/delete",
+    method:"post",
+    params,
+  })
+}
+//add
+export function addUser (params) {
+  return request ({ 
+    url :"auth/add",
+    method:"post",
+    params,
+  })
+}

@@ -36,15 +36,15 @@
         <template #columns>
           <a-table-column 
             :title="$t('UID')"
-            data-index="id"
+            data-index="seriesId"
           />
           <a-table-column
             :title="$t('用户名')"
-            data-index="name"
+            data-index="username"
           />
           <a-table-column
             :title="$t('手机号')"
-            data-index="title"
+            data-index="mobile"
           />
           <a-table-column
             :title="$t('用户身份')"
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import {getUserList} from '../../../api/userManage.js'
+import {getUserList,deleteUser} from '../../../api/userManage.js'
 import AddClass from './add-class.vue'
 export default {
   components:{
@@ -104,7 +104,8 @@ export default {
   },
   data() {
     return {
-      visible : false
+      visible : false,
+      classList:[],
     }
   },
   methods:{ 
@@ -115,11 +116,24 @@ export default {
         this.visible =false 
     },
     handleUserList(){
-
+      getUserList({
+        pageNum:1,
+        pageSize:100,
+      }).then((res)=>{
+        console.log(res.data.data.list);
+        this.classList = res.data.data.list;
+      })
+    },
+    delList(row) {
+      console.log(row.record.seriesId);
+      deleteUser({id:row.record.seriesId}).then((res)=>{
+        alert('删除成功！');
+        this.handleUserList();
+      })
     }
   },
   created() {
-   
+    this.handleUserList();
   }
 }
 
