@@ -4,7 +4,7 @@
     <div class="student_search">
       <div class="student_search_font">学员信息</div>
       <a-row>
-        <a-col :span="7">
+        <a-col :span="10">
           <div class="student_search_input">
             <span>学员姓名</span>
             <a-input
@@ -14,7 +14,7 @@
             />
           </div>
         </a-col>
-        <a-col :span="7">
+        <a-col  :span="10">
           <div class="student_search_input">
             <span>入学时间</span>
             <a-input
@@ -24,10 +24,10 @@
             />
           </div>
         </a-col>
+        <a-col  :span="4"></a-col>
       </a-row>
-
       <a-row>
-        <a-col :span="7">
+        <a-col :span="10">
           <div class="student_search_input">
             <span>学员手机</span>
             <a-input
@@ -37,18 +37,21 @@
             />
           </div>
         </a-col>
-        <a-col :span="7">
+        <a-col :span="10">
           <div class="student_search_input">
             <span>所在班级</span>
             <a-input
               v-model="params.groupId"
               class="input"
-              placeholder="请输入学员所在班级"
+              placeholder="学员所在班级"
             />
           </div>
         </a-col>
-        <a-col :span="8">
-          <a-button
+        <a-col :span="4"></a-col>
+      </a-row>
+      <a-row>
+        <a-col style="text-align: right; margin-bottom: 20px;">
+        <a-button
             class="student_change student_reset"
             type="dashed"
             @click="resetFrom"
@@ -60,7 +63,7 @@
             @click="searchStudentFun(params)"
             >查询</a-button
           >
-        </a-col>
+          </a-col>
       </a-row>
     </div>
     <!-- 学员列表区 -->
@@ -72,22 +75,22 @@
           accept="application/msexcel"
           @change="fileChange"
         />
-      </div>
-      <a-button type="primary" class="download_model">
-        <a
-          href="/addStudentList.xlsx"
-          download="addStudentList.xlsx"
-          style="text-decoration: none"
-          >下载模板</a
-        >
+        <a-button type="primary" class="download_model">
+          <a
+            href="/addStudentList.xlsx"
+            download="addStudentList.xlsx"
+            style="text-decoration: none"
+            >下载模板</a
+          >
       </a-button>
+      </div>
 
       <a-table
         class="student_from"
         row-key="id"
-        :pagination="pagination"
         :data="studentList"
         :bordered="false"
+        :pagination="false"
       >
         <template #columns>
           <a-table-column :title="$t('ID')" data-index="id" align="center" />
@@ -103,22 +106,22 @@
           />
           <a-table-column
             :title="$t('学习进度')"
-            data-index="professional"
+            data-index="subjectName"
             align="center"
           />
           <a-table-column
             :title="$t('学员班级')"
-            data-index="groupId"
+            data-index="groupTitle"
             align="center"
           />
           <a-table-column
             :title="$t('练习题次数')"
-            data-index="seriesId"
+            data-index="practice"
             align="center"
           />
           <a-table-column
             :title="$t('入学时间')"
-            data-index="enrollmentTimeShool"
+            data-index="registerTime"
             align="center"
           />
 
@@ -148,6 +151,7 @@
           </a-table-column>
         </template>
       </a-table>
+      <a-pagination class="pagination" :total="params.total" show-page-size/>
     </div>
     <!-- 编辑学员区 -->
     <div>
@@ -212,6 +216,7 @@
             <a-date-picker
               v-model="form.enrollmentTimeShool"
               style="width: 400px"
+              value-format="YYYY-MM-DD HH:mm:ss"
             />
           </a-form-item>
         </a-form>
@@ -220,9 +225,9 @@
   </div>
 </template>
 
-<script>
-  // eslint-disable-next-line import/no-unresolved
+<script lang="js">
   import qs from 'qs';
+  import _ from 'lodash'
   import * as XLSX from 'xlsx';
   import {
     getStudentAPI,
@@ -251,16 +256,15 @@
           enrollmentTimeShool: '',
           mobile: '',
           groupId: '',
+          pageNum: 1,
+          pageSize: 10,
+          total:0
         },
 
         // 学生列表
         studentList: [],
         // 编辑学生对象
         editStudent: {},
-        // 分页
-        pagination: {
-          pageSize: 3,
-        },
         // 录入弹窗
 
         visibleEdit: false,
@@ -274,10 +278,10 @@
     methods: {
       async acquireStudentList() {
         const res = await getStudentAPI(
-          qs.stringify({ pageNum: 1, pageSize: 100 }),
-          {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
+          qs.stringify(  this.omitBy(this.params) )
         );
-        this.studentList = [...res.data.data.list];
+        this.studentList = res.data.data.list
+        this.params.total = res.data.data.total
       },
 
       editStudentFun(row) {
@@ -330,22 +334,20 @@
       // 查询操作
       async searchStudentFun(data) {
         const res = await getStudentAPI(
-          qs.stringify({
-            pageNum: 1,
-            pageSize: 3,
-            realname: data.realname,
-            enrollmentTimeShool: data.enrollmentTimeShool,
-            mobile: data.mobile,
-            groupId: data.groupId,
-          }),
-          {"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"}
+          qs.stringify( this.omitBy(data) )
         );
       
         // 搜索成功，清空表单
         if (res.data.code === 200) {
-          this.resetFrom();
+          this.studentList = res.data.data.list
+          this.params.total = res.data.data.total
         }
-        this.studentList = [...res.data.data.list];
+        
+      },
+      omitBy(data){
+        return _.omitBy(data, function (item) {
+            return !item
+          })
       },
       // 重置表单
       resetFrom() {
@@ -381,22 +383,16 @@
             resolve(ev.target.result);
           };
         });
-      },
-
-      // 搜索
-      // searchStudentFun(){
-      //   // 输入姓名
-      //   if(this.searchRealname !== ''){
-      //     this.newStudentList = this.studentList.filter((item)=> {
-      //       return item.realname.includes(this.searchRealname)
-      //     })
-      //   }
-      // }
+      }
     },
   };
 </script>
 
 <style scoped lang="less">
+  .pagination{
+    float: right;
+    margin-top: 10px;
+  }
   .container {
     background-color: rgba(255, 255, 255, 100);
     overflow: hidden;
@@ -406,16 +402,17 @@
   // 学员信息搜索框
   .student_search {
     margin: 0 -20px;
-    height: 167px;
+    height: auto;
     border-bottom: 1px solid #bbbbbb;
     .student_search_font {
       font-size: 20px;
       margin: 30px 0 0 42px;
     }
     .student_search_input {
-      margin-left: 42px;
+      width: auto;
+      margin-left: 30px;
       float: left;
-      display: block;
+      display:inline-flex;
       color: rgba(16, 16, 16, 100);
       font-size: 14px;
       text-align: left;
@@ -425,8 +422,9 @@
   }
 
   .input {
-    margin-left: 54px;
-    width: 200px;
+    margin-left: 20px;
+    margin-top: 18px;
+    width: auto;
     height: 30px;
     color: rgba(136, 136, 136, 100);
     font-size: 14px;
@@ -434,9 +432,12 @@
     font-family: Microsoft Yahei;
     border: 1px solid rgba(187, 187, 187, 100);
     background-color: rgba(255, 255, 255, 100);
+    input {
+      width: auto;
+    }
   }
   .student_change {
-    margin: 20px 0 0 49px;
+    margin: 0px 30px 0 0px;
     width: 80px;
     height: 30px;
     border-radius: 4px;
@@ -501,9 +502,7 @@
     border: none;
   }
   .download_model {
-    position: absolute;
-    right: 90px;
-    top: 335px;
+    float: right;
   }
   .title {
     margin-left: 50px;
