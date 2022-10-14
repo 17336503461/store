@@ -11,7 +11,7 @@
  export function getTechonology(data) { 
   return request({
     url :'LessonSeries/getList' ,
-    method: 'post',
+    method: 'get',
     //不会拼接 字符 串路由传参
     data,
   })

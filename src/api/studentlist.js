@@ -1,6 +1,6 @@
 import request from "../utils/request"
 // 获取所有班级列表数据
-export const getStudentAPI = (data,header) => {
+export const getStudentAPI = (data, header) => {
   return request({
     url: '/Student/getList',
     method: 'POST',
@@ -9,7 +9,7 @@ export const getStudentAPI = (data,header) => {
   })
 }
 
-// 防止eslint报错 Prefer default export 添加的假api
+// 删除学生
 export const deleteStudentAPI = (data,header) => {
   return request({
     url: `/Student/delete/${data}`,
@@ -33,13 +33,5 @@ export const addStudentAPI = (data) => {
     url: '/Student/addList',
     method: 'POST',
     data
-    // data的格式
-    // id: '83',
-    // realname:'戴龙邦',
-    // mobile:'18720138586',
-    // professional:'React',
-    // class:'Vip14',
-    // num:'100',
-    // enrollmentTimeShool:'2022-08-10 08:44:11',
   })
 }

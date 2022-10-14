@@ -8,12 +8,11 @@
   </a-space>
 </template>
 
-<script >
+<script>
   import { reactive, ref } from 'vue';
 
   export default {
     setup() {
-
       const columns = [
         {
           title: '科目信息',

@@ -57,7 +57,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-  import { computed, ref, reactive } from 'vue';
+  import { computed, ref, reactive, onBeforeMount } from 'vue';
   import { useI18n } from 'vue-i18n';
   import useLoading from '@/hooks/loading';
   import { queryPolicyList, PolicyRecord, PolicyParams } from '@/api/list';
@@ -137,8 +137,9 @@
   const onPageChange = (current: number) => {
     fetchData({ ...basePagination, current });
   };
-
-  fetchData();
+  onBeforeMount(() => {
+    fetchData()
+  })
   const reset = () => {
     formModel.value = generateFormModel();
   };
