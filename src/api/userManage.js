@@ -22,10 +22,10 @@ export function deleteUser (params) {
   })
 }
 //add
-export function addUser (params) {
+export function addUser (data) {
   return request ({ 
     url :"roles/add",
     method:"post",
-    params,
+    data ,
   })
 }

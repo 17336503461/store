@@ -22,8 +22,8 @@
       <div class="addclassbtn">
         <!-- 创建班级按钮（跳转路由/创建蒙层） -->
         <a-button type="primary" @click="addClassFun">录入用户</a-button>
-        <a-button type="primary" @click="addClassFun" class="user-reset">重置</a-button>
-        <a-button type="primary" @click="addClassFun" class="user-research">查询</a-button>
+        <a-button type="primary" @click="" class="user-reset">重置</a-button>
+        <a-button type="primary" @click="" class="user-research">查询</a-button>
       </div>
       <div>
         <a-table
@@ -73,7 +73,7 @@
       </a-table>
       </div>
     </div>
-    <div v-show="visible" class="mask">
+    <div v-show="visible" class="a-mask">
       <div class="addClassIpt">
         <AddClass
        
@@ -154,7 +154,26 @@ export default {
   margin-bottom: 24px;
   margin-left: 5px;
 }
-
+.a-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  .addClassIpt {
+    width: 700px;
+    height: 250px;
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    margin-top: 120px;
+    padding-top: 10px;
+    padding-left: 10px;
+    border-radius: 20px;
+  }
+  
+}
 .mask {
   position: fixed;
   top: 0;

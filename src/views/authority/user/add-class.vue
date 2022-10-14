@@ -4,7 +4,7 @@
     <a-divider :style="{ color: '#000' }" />
     <a-form :model="form"  :style="{ width: '680px' }" >
       
-      <a-form-item field="seriesId" label="Uid : " >
+      <a-form-item field="seriesId" label="id : " >
         <a-input
           v-model="form.seriesId"
           placeholder="请输入Uid"
@@ -18,13 +18,13 @@
           style="width: 400px"
         />
       </a-form-item>
-      <a-form-item field="phone" label="手机号：">
+      <!-- <a-form-item field="phone" label="手机号：">
         <a-input
           v-model="form.phone"
           placeholder="请输入手机号"
           style="width: 400px"
         />
-      </a-form-item>
+      </a-form-item> -->
       <!-- <a-form-item field="time" label="创建时间: " >
         <a-input
           v-model="form.time"
@@ -88,7 +88,8 @@ export default {
         // getAccountList(); 写不出来 组件组件 调用函数 
         this.gotoa();
       }).catch((err)=>{
-        alert("格式错误");
+        // alert("格式错误"); 
+        console.log(err);
         this.form.classname= "" ;
         this.form.seriesId =  "" ;
         this.form.technology=  "" ;
