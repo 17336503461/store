@@ -79,9 +79,9 @@ export default {
       console.log(this.form.seriesId,this.form.Username , this.form.phone);
       //添加科目
       addUser({
-        seriesId:this.form.seriesId,
-        username:this.form.Username,
-        phone:this.form.phone,
+        id:this.form.seriesId,
+        title:this.form.Username,
+        // phone:this.form.phone,
 
       }).then((res)=>{
         alert("添加成功!");

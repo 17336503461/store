@@ -24,7 +24,7 @@ export function deleteUser (params) {
 //add
 export function addUser (params) {
   return request ({ 
-    url :"auth/add",
+    url :"roles/add",
     method:"post",
     params,
   })
