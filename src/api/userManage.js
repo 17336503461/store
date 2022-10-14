@@ -14,11 +14,11 @@
   })
 }
 //删除
-export function deleteUser (params) {
+export function deleteUser (data) {
   return request ({ 
-    url :"auth/delete",
-    method:"post",
-    params,
+    url :"roles/delete",
+    method:"get",
+    data,
   })
 }
 //add

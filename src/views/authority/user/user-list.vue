@@ -6,14 +6,14 @@
     <div>
       <a-space class="user-bar">
         <span>用户姓名</span>
-        <a-input :style="{width:'320px'}" placeholder="单行输入" allow-clear />
+        <a-input  class= "clearedInput" :style="{width:'320px'}" placeholder="单行输入" allow-clear />
         <span>技术栈</span>
-        <a-input :style="{width:'320px'}" placeholder="单行输入" allow-clear />
+        <a-input class= "clearedInput" :style="{width:'320px'}" placeholder="单行输入" allow-clear />
         
         <span>用户手机</span> 
-        <a-input :style="{width:'320px'}" placeholder="单行输入" allow-clear />
+        <a-input class= "clearedInput" :style="{width:'320px'}" placeholder="单行输入" allow-clear />
         <span>身份选择</span> 
-        <a-input :style="{width:'320px'}" placeholder="单行输入" allow-clear />
+        <a-input class= "clearedInput" :style="{width:'320px'}" placeholder="单行输入" allow-clear />
       </a-space>
     </div>
 
@@ -22,7 +22,7 @@
       <div class="addclassbtn">
         <!-- 创建班级按钮（跳转路由/创建蒙层） -->
         <a-button type="primary" @click="addClassFun">录入用户</a-button>
-        <a-button type="primary" @click="" class="user-reset">重置</a-button>
+        <a-button type="primary" @click="resetMessage" class="user-reset">重置</a-button>
         <a-button type="primary" @click="" class="user-research">查询</a-button>
       </div>
       <div>
@@ -108,7 +108,8 @@ export default {
       classList:[],
     }
   },
-  methods:{ 
+  methods:{
+     
     addClassFun(){
       this.visible = true
     },
@@ -130,6 +131,10 @@ export default {
         alert('删除成功！');
         this.handleUserList();
       })
+    },
+    resetMessage() { 
+      // document.getElementByclass('clearedInput').default-value = ""
+      
     }
   },
   created() {
