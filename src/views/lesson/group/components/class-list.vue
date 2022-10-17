@@ -55,14 +55,14 @@
           :sticky-header="100"
           :pagination="pagination"
         >
-          <template #operate="{}">
+          <template #operate="operate">
             <a-button type="outline" size="mini" class="operatebtn"
               >查看排课</a-button
             >
             <a-button type="outline" size="mini" class="operatebtn"
               >查看学员</a-button
             >
-            <a-button type="outline" size="mini">排课</a-button>
+            <a-button type="outline" size="mini" @click="pushLesson(operate)">排课</a-button>
           </template>
         </a-table>
 
@@ -88,6 +88,7 @@
 <script>
   import AddClass from './class-addclass.vue';
   import { getClassesAPI, addClassAPI } from '../../../../api/classmanage';
+  
 
   export default {
     components: {
@@ -257,6 +258,10 @@
       cancelfun() {
         this.visible = false;
       },
+      // 跳转排课
+      pushLesson(row){
+        this.$router.push({path: "/lesson/schedule" ,query:{ id:row.record.title}});
+      }
     },
   };
 </script>
