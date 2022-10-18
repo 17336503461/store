@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class = "container">
     <div>
       <h1 class="user-info">用户信息</h1>
     </div>
@@ -145,6 +145,12 @@ export default {
 </script>
 
 <style scoped lang="less">
+.container { 
+            padding: 0 20px 40px 20px;
+            background-color: var(--color-bg-2);
+            overflow: hidden;
+            height: 100%;
+        }
 .searchbutton {
   margin-left: 84px;
 }
